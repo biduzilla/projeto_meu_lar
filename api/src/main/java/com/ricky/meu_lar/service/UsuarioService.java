@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.service;
 
+import com.ricky.meu_lar.dto.CredencialDto;
 import com.ricky.meu_lar.dto.UsuarioDto;
 
 public interface UsuarioService {
@@ -7,4 +8,5 @@ public interface UsuarioService {
     UsuarioDto getUserById(String id);
     void atualizarUser(UsuarioDto usuarioDto);
     void deletarUser(String id);
+    UsuarioDto login(CredencialDto credencialDto);
 }

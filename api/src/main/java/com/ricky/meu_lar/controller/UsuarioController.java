@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.controller;
 
+import com.ricky.meu_lar.dto.CredencialDto;
 import com.ricky.meu_lar.dto.UsuarioDto;
 import com.ricky.meu_lar.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,13 @@ public class UsuarioController {
         usuarioService.salvarUser(usuarioDto);
     }
 
-    @GetMapping("get/{id}")
+    @PostMapping("login")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UsuarioDto login(@Valid @RequestBody CredencialDto credencialDto){
+        return usuarioService.login(credencialDto);
+    }
+
+    @GetMapping("get_user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UsuarioDto getUsuarioById(@PathVariable String id){
         return usuarioService.getUserById(id);

@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.service.impl;
 
+import com.ricky.meu_lar.dto.CredencialDto;
 import com.ricky.meu_lar.dto.UsuarioDto;
 import com.ricky.meu_lar.exception.EmaiInvalido;
 import com.ricky.meu_lar.exception.EmailJaCadastrado;
@@ -84,6 +85,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(UsuarioNaoEncontrado::new);
 
         usuarioRepository.delete(usuario);
+    }
+
+    @Override
+    public UsuarioDto login(CredencialDto credencialDto) {
+        Usuario usuario = usuarioRepository.findByEmailAndSenha(credencialDto.getEmail(), credencialDto.getSenha()).orElseThrow(UsuarioNaoEncontrado::new);
+        return UsuarioDto.builder()
+                .id(usuario.getId())
+                .build();
     }
 
     private boolean validEmail(String email) {
