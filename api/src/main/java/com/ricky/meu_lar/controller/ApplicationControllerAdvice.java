@@ -5,10 +5,15 @@ import com.ricky.meu_lar.exception.EmaiInvalido;
 import com.ricky.meu_lar.exception.EmailJaCadastrado;
 import com.ricky.meu_lar.exception.SenhaCurta;
 import com.ricky.meu_lar.exception.UsuarioNaoEncontrado;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
@@ -26,7 +31,7 @@ public class ApplicationControllerAdvice {
 
     @ExceptionHandler(SenhaCurta.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleSenhaCurtaException(EmailJaCadastrado ex) {
+    public ApiError handleSenhaCurtaException(SenhaCurta ex) {
         return new ApiError(ex.getMessage());
     }
 
@@ -34,5 +39,15 @@ public class ApplicationControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleUsuarioNaoEncontradoException(UsuarioNaoEncontrado ex) {
         return new ApiError(ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleMethodNotValidException(MethodArgumentNotValidException ex) {
+        List<String> erros = ex.getBindingResult().getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+
+        return new ApiError(erros);
     }
 }

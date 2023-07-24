@@ -5,12 +5,13 @@ import com.ricky.meu_lar.exception.EmaiInvalido;
 import com.ricky.meu_lar.exception.EmailJaCadastrado;
 import com.ricky.meu_lar.exception.SenhaCurta;
 import com.ricky.meu_lar.exception.UsuarioNaoEncontrado;
-import com.ricky.meu_lar.model.Usuario;
+import com.ricky.meu_lar.entity.Usuario;
 import com.ricky.meu_lar.repository.UsuarioRepository;
 import com.ricky.meu_lar.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,19 +25,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void salvarUser(UsuarioDto usuario) {
         if (usuarioRepository.existsByEmail(usuario.getEmail())) {
             throw new EmailJaCadastrado();
-        } else {
-            if (!validEmail(usuario.getEmail())) {
-                throw new EmaiInvalido();
-            }
-            if (!validSenha(usuario.getSenha())) {
-                throw new SenhaCurta();
-            }
-            usuarioRepository.save(Usuario.builder()
-                    .email(usuario.getEmail())
-                    .senha(usuario.getSenha())
-                    .telefone(usuario.getTelefone())
-                    .build());
         }
+        if (!validEmail(usuario.getEmail())) {
+            throw new EmaiInvalido();
+        }
+        if (!validSenha(usuario.getSenha())) {
+            throw new SenhaCurta();
+        }
+        usuarioRepository.save(Usuario.builder()
+                .id(UUID.randomUUID().toString())
+                .nome(usuario.getNome())
+                .email(usuario.getEmail())
+                .senha(usuario.getSenha())
+                .telefone(usuario.getTelefone())
+                .build());
     }
 
     @Override
@@ -93,6 +95,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     private boolean validSenha(String senha) {
-        return senha.toCharArray().length >= 8;
+        return senha.toCharArray().length > 8;
     }
 }

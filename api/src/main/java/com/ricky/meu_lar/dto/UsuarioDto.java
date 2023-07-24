@@ -1,6 +1,6 @@
 package com.ricky.meu_lar.dto;
 
-import com.ricky.meu_lar.model.Pet;
+import com.ricky.meu_lar.entity.Pet;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +14,8 @@ import java.util.List;
 @Builder
 public class UsuarioDto {
     private String id;
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
+    private String nome;
     @NotEmpty(message = "{campo.email.obrigatorio}")
     private String email;
     @NotEmpty(message = "{campo.senha.obrigatorio}")

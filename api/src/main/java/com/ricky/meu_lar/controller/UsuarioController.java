@@ -17,7 +17,7 @@ public class UsuarioController {
 
     @PostMapping("criar")
     @ResponseStatus(HttpStatus.CREATED)
-    public void salvarUsuario(@RequestBody @Valid UsuarioDto usuarioDto){
+    public void salvarUsuario(@Valid @RequestBody UsuarioDto usuarioDto){
         usuarioService.salvarUser(usuarioDto);
     }
 

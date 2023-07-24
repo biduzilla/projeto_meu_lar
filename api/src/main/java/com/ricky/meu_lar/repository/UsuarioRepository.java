@@ -1,6 +1,6 @@
 package com.ricky.meu_lar.repository;
 
-import com.ricky.meu_lar.model.Usuario;
+import com.ricky.meu_lar.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

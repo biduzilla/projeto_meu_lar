@@ -1,8 +1,8 @@
-package com.ricky.meu_lar.model;
+package com.ricky.meu_lar.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @Builder
+@Entity
 @Table(name = "tab_usuario")
 public class Usuario {
 
@@ -31,6 +32,6 @@ public class Usuario {
     @Column(name = "usuario_telefone")
     private String telefone;
 
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL)
-    private List<Pet> pets;
+    @OneToMany(fetch=FetchType.LAZY,mappedBy = "usuario")
+    private List<Pet> pets = new ArrayList<Pet>();
 }

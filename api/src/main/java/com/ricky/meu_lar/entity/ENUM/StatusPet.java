@@ -1,4 +1,4 @@
-package com.ricky.meu_lar.model.ENUM;
+package com.ricky.meu_lar.entity.ENUM;
 
 public enum StatusPet {
     ADOTAR,

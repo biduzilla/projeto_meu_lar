@@ -1,15 +1,10 @@
-package com.ricky.meu_lar.model;
+package com.ricky.meu_lar.entity;
 
-import com.ricky.meu_lar.model.ENUM.StatusPet;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ricky.meu_lar.entity.ENUM.StatusPet;
 import lombok.*;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -17,15 +12,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString
 @Builder
+@Entity
 @Table(name = "tab_pet")
 public class Pet {
     @Id
     @Column(name = "pet_id")
-    private String id = UUID.randomUUID().toString();
+    private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario user;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "ref_usuario")
+    private Usuario usuario;
 
     @Column(name = "pet_nome")
     private String nome;
