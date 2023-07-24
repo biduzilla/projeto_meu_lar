@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.model;
 
+import com.ricky.meu_lar.model.ENUM.StatusPet;
 import lombok.*;
 
 import org.springframework.data.annotation.Id;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 @Table(name = "tab_pet")
 public class Pet {
     @Id
@@ -31,8 +33,8 @@ public class Pet {
     @Column(name = "pet_descricao")
     private String descricao;
 
-    @Column(name = "pet_isPerdido")
-    private Boolean isPerdido;
+    @Column(name = "pet_status")
+    private StatusPet status;
 
     @Column(name = "pet_img")
     private String imagem;
