@@ -2,6 +2,7 @@ package com.ricky.meu_lar.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ricky.meu_lar.entity.ENUM.StatusPet;
+import com.ricky.meu_lar.entity.ENUM.TamanhoPet;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,4 +35,7 @@ public class Pet {
 
     @Column(name = "pet_img")
     private String imagem;
+
+    @Column(name = "pet_tamanho")
+    private TamanhoPet tamanho;
 }
