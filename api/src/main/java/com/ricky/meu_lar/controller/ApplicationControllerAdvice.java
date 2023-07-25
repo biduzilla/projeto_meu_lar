@@ -1,10 +1,7 @@
 package com.ricky.meu_lar.controller;
 
 import com.ricky.meu_lar.error.ApiError;
-import com.ricky.meu_lar.exception.EmaiInvalido;
-import com.ricky.meu_lar.exception.EmailJaCadastrado;
-import com.ricky.meu_lar.exception.SenhaCurta;
-import com.ricky.meu_lar.exception.UsuarioNaoEncontrado;
+import com.ricky.meu_lar.exception.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -38,6 +35,12 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(UsuarioNaoEncontrado.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleUsuarioNaoEncontradoException(UsuarioNaoEncontrado ex) {
+        return new ApiError(ex.getMessage());
+    }
+
+    @ExceptionHandler(SenhaInvalida.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleSenhaInvalidaException(SenhaInvalida ex) {
         return new ApiError(ex.getMessage());
     }
 

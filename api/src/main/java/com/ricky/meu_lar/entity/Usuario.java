@@ -32,6 +32,9 @@ public class Usuario {
     @Column(name = "usuario_telefone")
     private String telefone;
 
+    @Column(name = "usuario_admin")
+    private boolean admin;
+
     @OneToMany(fetch=FetchType.LAZY,mappedBy = "usuario")
     private List<Pet> pets = new ArrayList<Pet>();
 }
