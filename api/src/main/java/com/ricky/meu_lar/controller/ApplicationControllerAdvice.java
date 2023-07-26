@@ -43,6 +43,16 @@ public class ApplicationControllerAdvice {
     public ApiError handleSenhaInvalidaException(SenhaInvalida ex) {
         return new ApiError(ex.getMessage());
     }
+    @ExceptionHandler(PetNaoEncontrado.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handlePetNaoEncontradoException(PetNaoEncontrado ex) {
+        return new ApiError(ex.getMessage());
+    }
+    @ExceptionHandler(PetNaoTePertence.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handlePetNaoTePertenceException(PetNaoTePertence ex) {
+        return new ApiError(ex.getMessage());
+    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
