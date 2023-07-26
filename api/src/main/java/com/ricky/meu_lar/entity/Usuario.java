@@ -18,7 +18,7 @@ public class Usuario {
 
     @Id
     @Column(name = "usuario_id")
-    private String id = UUID.randomUUID().toString();
+    private String id;
 
     @Column(name = "usuario_nome")
     private String nome;
@@ -36,5 +36,5 @@ public class Usuario {
     private boolean admin;
 
     @OneToMany(fetch=FetchType.LAZY,mappedBy = "usuario")
-    private List<Pet> pets = new ArrayList<Pet>();
+    private List<Pet> pets;
 }

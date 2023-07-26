@@ -22,43 +22,40 @@ public class JwtService {
     @Value("${security.jwt.key}")
     private String key;
 
-    public String gerarToken(Usuario usuario) throws ExpiredJwtException {
+    public String gerarToken(Usuario usuario) {
         long expString = Long.parseLong(expiracao);
         LocalDateTime dataHoraExpiracao = LocalDateTime.now().plusMinutes(expString);
-        Instant instant = dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant();
-        Date date = Date.from(instant);
+        Date data = Date.from(dataHoraExpiracao.atZone(ZoneId.systemDefault()).toInstant());
+
 
         return Jwts.builder()
                 .setSubject(usuario.getEmail())
-                .setExpiration(date)
-                .signWith(SignatureAlgorithm.ES512, key)
+                .setExpiration(data)
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
+
     }
 
-    private Claims obterClaims(String token) {
-        return Jwts
-                .parser()
+    public Claims obterClaims(String token) throws ExpiredJwtException {
+        return Jwts.parser()
                 .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    public boolean validaToken(String token) {
+    public boolean validarToken(String token) {
         try {
             Claims claims = obterClaims(token);
             Date dataExpiracao = claims.getExpiration();
-            LocalDateTime data = dataExpiracao
-                    .toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDateTime();
-            return !LocalDateTime.now().isAfter(data);
-
+            LocalDateTime localDateTime =
+                    dataExpiracao.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            return !LocalDateTime.now().isAfter(localDateTime);
         } catch (Exception e) {
             return false;
         }
     }
 
-    public String obterLoginUser(String token) throws ExpiredJwtException {
-        return (String) obterClaims(token).getSubject();
+    public String obterLoginUser(String token) throws ExpiredJwtException{
+        return obterClaims(token).getSubject();
     }
 }

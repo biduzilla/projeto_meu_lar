@@ -26,8 +26,8 @@ public class UsuarioServiceAuthImpl implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByEmail(username)
                 .orElseThrow(UsuarioNaoEncontrado::new);
 
-        String[] roles = usuario.isAdmin() ? new String[]{"ADMIN", "USER"} : new String[]{"USER"};
-
+        String[] roles = usuario.isAdmin() ?
+                new String[]{"ADMIN", "USER"} : new String[]{"USER"};
         return User
                 .builder()
                 .username(usuario.getEmail())
@@ -36,18 +36,18 @@ public class UsuarioServiceAuthImpl implements UserDetailsService {
                 .build();
     }
 
-    public UserDetails autentificar(Usuario usuario){
+    public UserDetails autentificar(Usuario usuario) {
         UserDetails userDetails = loadUserByUsername(usuario.getEmail());
         boolean senhasBatem = encoder.matches(usuario.getSenha(), userDetails.getPassword());
 
-        if (senhasBatem){
+        if (senhasBatem) {
             return userDetails;
         }
         throw new SenhaInvalida();
     }
 
-    public Usuario procurarUsuarioPorToken(String token){
-        if (token.contains("Bearer")){
+    public Usuario procurarUsuarioPorToken(String token) {
+        if (token.contains("Bearer")) {
             token = token.split(" ")[1];
         }
         return null;

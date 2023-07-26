@@ -1,6 +1,7 @@
 package com.ricky.meu_lar.service.impl;
 
 import com.ricky.meu_lar.dto.CredencialDto;
+import com.ricky.meu_lar.dto.TokenDto;
 import com.ricky.meu_lar.dto.UsuarioDto;
 import com.ricky.meu_lar.exception.EmaiInvalido;
 import com.ricky.meu_lar.exception.EmailJaCadastrado;
@@ -8,8 +9,11 @@ import com.ricky.meu_lar.exception.SenhaCurta;
 import com.ricky.meu_lar.exception.UsuarioNaoEncontrado;
 import com.ricky.meu_lar.entity.Usuario;
 import com.ricky.meu_lar.repository.UsuarioRepository;
+import com.ricky.meu_lar.security.JwtService;
 import com.ricky.meu_lar.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -21,6 +25,9 @@ import java.util.regex.Pattern;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioServiceAuthImpl usuarioServiceAuth;
+    private final JwtService jwtService;
+    private final PasswordEncoder encoder;
 
     @Override
     public void salvarUser(UsuarioDto usuario) {
@@ -37,8 +44,9 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .id(UUID.randomUUID().toString())
                 .nome(usuario.getNome())
                 .email(usuario.getEmail())
-                .senha(usuario.getSenha())
+                .senha(encoder.encode(usuario.getSenha()))
                 .telefone(usuario.getTelefone())
+                .admin(false)
                 .build());
     }
 
@@ -68,11 +76,13 @@ public class UsuarioServiceImpl implements UsuarioService {
             if (!validSenha(usuarioDto.getSenha())) {
                 throw new SenhaCurta();
             }
+
             usuarioRepository.save(Usuario.builder()
                     .id(usuarioDto.getId())
                     .email(usuarioDto.getEmail())
-                    .senha(usuarioDto.getSenha())
+                    .senha(encoder.encode(usuarioDto.getSenha()))
                     .telefone(usuarioDto.getTelefone())
+                    .nome(usuarioDto.getNome())
                     .pets(usuarioDto.getPets())
                     .build());
         } else {
@@ -88,11 +98,23 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDto login(CredencialDto credencialDto) {
-        Usuario usuario = usuarioRepository.findByEmailAndSenha(credencialDto.getEmail(), credencialDto.getSenha()).orElseThrow(UsuarioNaoEncontrado::new);
-        return UsuarioDto.builder()
-                .id(usuario.getId())
-                .build();
+    public TokenDto login(CredencialDto credencialDto) {
+        try {
+            Usuario usuario =
+                    Usuario.builder()
+                            .email(credencialDto.getEmail())
+                            .senha(credencialDto.getSenha())
+                            .build();
+
+            UserDetails userAutentificado = usuarioServiceAuth.autentificar(usuario);
+            String token = jwtService.gerarToken(usuario);
+
+            Usuario userPronto = usuarioRepository.findByEmail(usuario.getEmail()).orElseThrow(UsuarioNaoEncontrado::new);
+
+            return new TokenDto(token, userPronto.getId());
+        } catch (UsuarioNaoEncontrado e) {
+            throw new UsuarioNaoEncontrado();
+        }
     }
 
     private boolean validEmail(String email) {

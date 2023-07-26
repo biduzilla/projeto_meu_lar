@@ -1,6 +1,8 @@
 package com.ricky.meu_lar.controller;
 
+import antlr.Token;
 import com.ricky.meu_lar.dto.CredencialDto;
+import com.ricky.meu_lar.dto.TokenDto;
 import com.ricky.meu_lar.dto.UsuarioDto;
 import com.ricky.meu_lar.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class UsuarioController {
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.CREATED)
-    public UsuarioDto login(@Valid @RequestBody CredencialDto credencialDto){
+    public TokenDto login(@Valid @RequestBody CredencialDto credencialDto){
         return usuarioService.login(credencialDto);
     }
 
