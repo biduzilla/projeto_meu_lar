@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.service;
 
+import com.ricky.meu_lar.dto.ListPetsDto;
 import com.ricky.meu_lar.dto.PetRequisicaoDto;
 import com.ricky.meu_lar.dto.PetResponseDto;
 import com.ricky.meu_lar.dto.PetUpdateRequisicaoDto;
@@ -17,19 +18,19 @@ public interface PetService {
 
     PetResponseDto getPetById(String id);
 
-    List<PetResponseDto> getAllMyPets(String userId);
+    ListPetsDto getAllMyPets(String userId);
 
-    List<PetResponseDto> getAllPets();
+    ListPetsDto getAllPets();
 
-    List<PetResponseDto> getAllPetsSmall();
+    ListPetsDto getAllPetsSmall();
 
-    List<PetResponseDto> getAllPetsMedium();
+    ListPetsDto getAllPetsMedium();
 
-    List<PetResponseDto> getAllPetsLarge();
+    ListPetsDto getAllPetsLarge();
 
-    List<PetResponseDto> getAllPetsAdotar();
+    ListPetsDto getAllPetsAdotar();
 
-    List<PetResponseDto> getAllPetsPerdido();
+    ListPetsDto getAllPetsPerdido();
 
-    List<PetResponseDto> getAllPetsEncontrado();
+    ListPetsDto getAllPetsEncontrado();
 }

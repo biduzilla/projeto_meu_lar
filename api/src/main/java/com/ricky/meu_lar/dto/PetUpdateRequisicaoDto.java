@@ -15,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 public class PetUpdateRequisicaoDto {
     private String nome;
     private String descricao;
-    private StatusPet status;
+    private String status;
     private String imagem;
-    private TamanhoPet tamanho;
+    private String tamanho;
 }

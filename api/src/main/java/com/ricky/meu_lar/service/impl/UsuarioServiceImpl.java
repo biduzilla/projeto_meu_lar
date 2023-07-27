@@ -1,8 +1,10 @@
 package com.ricky.meu_lar.service.impl;
 
 import com.ricky.meu_lar.dto.CredencialDto;
+import com.ricky.meu_lar.dto.PetResponseDto;
 import com.ricky.meu_lar.dto.TokenDto;
 import com.ricky.meu_lar.dto.UsuarioDto;
+import com.ricky.meu_lar.entity.Pet;
 import com.ricky.meu_lar.exception.EmaiInvalido;
 import com.ricky.meu_lar.exception.EmailJaCadastrado;
 import com.ricky.meu_lar.exception.SenhaCurta;
@@ -16,9 +18,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -57,11 +61,25 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         return UsuarioDto.builder()
                 .id(usuario.getId())
+                .nome(usuario.getNome())
                 .email(usuario.getEmail())
-                .senha(usuario.getSenha())
                 .telefone(usuario.getTelefone())
-                .pets(usuario.getPets())
+                .pets(listPetToListPetDto(usuario.getPets()))
                 .build();
+    }
+
+    private List<PetResponseDto> listPetToListPetDto(List<Pet> pets) {
+        return pets.stream()
+                .map(pet -> PetResponseDto.builder()
+                        .id(pet.getId())
+                        .nomePet(pet.getNome())
+                        .nomeContato(pet.getUsuario().getNome())
+                        .descricao(pet.getDescricao())
+                        .status(pet.getStatus().name())
+                        .imagem(pet.getImagem())
+                        .tamanho(pet.getTamanho().name())
+                        .telefone(pet.getUsuario().getTelefone())
+                        .build()).collect(Collectors.toList());
     }
 
     @Override
@@ -77,14 +95,24 @@ public class UsuarioServiceImpl implements UsuarioService {
                 throw new SenhaCurta();
             }
 
-            usuarioRepository.save(Usuario.builder()
-                    .id(usuarioDto.getId())
-                    .email(usuarioDto.getEmail())
-                    .senha(encoder.encode(usuarioDto.getSenha()))
-                    .telefone(usuarioDto.getTelefone())
-                    .nome(usuarioDto.getNome())
-                    .pets(usuarioDto.getPets())
-                    .build());
+            Usuario usuario = usuarioRepository.findById(usuarioDto.getId())
+                    .orElseThrow(UsuarioNaoEncontrado::new);
+
+            if (!usuarioDto.getEmail().isEmpty() || usuarioDto.getEmail() != null) {
+                usuario.setEmail(usuarioDto.getEmail());
+            }
+            if (!usuarioDto.getNome().isEmpty() || usuarioDto.getNome() != null) {
+                usuario.setNome(usuarioDto.getNome());
+            }
+            if (!usuarioDto.getTelefone().isEmpty() || usuarioDto.getTelefone() != null) {
+                usuario.setTelefone(usuarioDto.getTelefone());
+            }
+            if (!usuarioDto.getSenha().isEmpty() || usuarioDto.getSenha() != null) {
+                usuario.setSenha(usuarioDto.getSenha());
+            }
+
+            usuarioRepository.save(usuario);
+
         } else {
             throw new UsuarioNaoEncontrado();
         }

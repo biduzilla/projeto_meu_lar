@@ -18,9 +18,9 @@ public class PetRequisicaoDto {
     @NotEmpty(message = "{campo.descricao.obrigatorio}")
     private String descricao;
     @NotEmpty(message = "{campo.status.obrigatorio}")
-    private StatusPet status;
+    private String status;
     @NotEmpty(message = "{campo.imagem.obrigatorio}")
     private String imagem;
     @NotEmpty(message = "{campo.tamanho.obrigatorio}")
-    private TamanhoPet tamanho;
+    private String tamanho;
 }

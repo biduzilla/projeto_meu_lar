@@ -15,8 +15,8 @@ public class PetResponseDto {
     private String nomePet;
     private String nomeContato;
     private String descricao;
-    private StatusPet status;
+    private String status;
     private String imagem;
-    private TamanhoPet tamanho;
+    private String tamanho;
     private String telefone;
 }

@@ -22,5 +22,5 @@ public class UsuarioDto {
     private String senha;
     @NotEmpty(message = "{campo.telefone.obrigatorio}")
     private String telefone;
-    private List<Pet> pets;
+    private List<PetResponseDto> pets;
 }

@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.controller;
 
+import com.ricky.meu_lar.dto.ListPetsDto;
 import com.ricky.meu_lar.dto.PetRequisicaoDto;
 import com.ricky.meu_lar.dto.PetResponseDto;
 import com.ricky.meu_lar.dto.PetUpdateRequisicaoDto;
@@ -23,47 +24,47 @@ public class PetController {
     }
 
     @GetMapping("todos_pets")
-    public List<PetResponseDto> getAllPets() {
+    public ListPetsDto getAllPets() {
         return petService.getAllPets();
     }
 
     @GetMapping("todos_pets_pequeno")
-    public List<PetResponseDto> getAllPetsSmall() {
+    public ListPetsDto getAllPetsSmall() {
         return petService.getAllPetsSmall();
     }
 
     @GetMapping("todos_pets_medio")
-    public List<PetResponseDto> getAllPetsMedium() {
+    public ListPetsDto getAllPetsMedium() {
         return petService.getAllPetsMedium();
     }
 
     @GetMapping("todos_pets_grande")
-    public List<PetResponseDto> getAllPetsLarge() {
+    public ListPetsDto getAllPetsLarge() {
         return petService.getAllPetsLarge();
     }
 
     @GetMapping("todos_pets_adotar")
-    public List<PetResponseDto> getAllPetsAdotar() {
+    public ListPetsDto getAllPetsAdotar() {
         return petService.getAllPetsAdotar();
     }
 
     @GetMapping("todos_pets_encontrado")
-    public List<PetResponseDto> getAllPetsEncontrado() {
+    public ListPetsDto getAllPetsEncontrado() {
         return petService.getAllPetsEncontrado();
     }
 
     @GetMapping("todos_pets_perdido")
-    public List<PetResponseDto> getAllPetsPerdido() {
+    public ListPetsDto getAllPetsPerdido() {
         return petService.getAllPetsPerdido();
     }
 
     @PostMapping("cadastrar_pet/{idUser}")
-    public void cadastrarPet(@Valid @RequestBody PetRequisicaoDto pet, String idUser) {
+    public void cadastrarPet(@Valid @RequestBody PetRequisicaoDto pet,@PathVariable String idUser) {
         petService.cadastrarPet(pet, idUser);
     }
 
     @PutMapping("atualizar_pet/{idPet}/{idUser}")
-    public void atualizarPet(@Valid @RequestBody PetUpdateRequisicaoDto pet, String idPet, String idUser) {
+    public void atualizarPet(@Valid @RequestBody PetUpdateRequisicaoDto pet,@PathVariable String idPet,@PathVariable String idUser) {
         petService.updatePet(pet, idPet, idUser);
     }
 

@@ -1,5 +1,6 @@
 package com.ricky.meu_lar.service.impl;
 
+import com.ricky.meu_lar.dto.ListPetsDto;
 import com.ricky.meu_lar.dto.PetRequisicaoDto;
 import com.ricky.meu_lar.dto.PetResponseDto;
 import com.ricky.meu_lar.dto.PetUpdateRequisicaoDto;
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,9 +38,9 @@ public class PetServiceImpl implements PetService {
                 .usuario(usuario)
                 .nome(petDto.getNome())
                 .descricao(petDto.getDescricao())
-                .status(petDto.getStatus())
+                .status(StatusPet.valueOf(petDto.getStatus()))
                 .imagem(petDto.getImagem())
-                .tamanho(petDto.getTamanho())
+                .tamanho(TamanhoPet.valueOf(petDto.getTamanho()))
                 .build();
 
         petRepository.save(pet);
@@ -51,11 +53,21 @@ public class PetServiceImpl implements PetService {
         if (verificarSeContemId(usuario.getPets(), idPet)) {
             Pet pet = petRepository.findById(idPet).orElseThrow(PetNaoEncontrado::new);
 
-            pet.setNome(petDto.getNome());
-            pet.setDescricao(petDto.getDescricao());
-            pet.setStatus(petDto.getStatus());
-            pet.setTamanho(petDto.getTamanho());
-            pet.setImagem(petDto.getImagem());
+            if (!petDto.getNome().isEmpty() || petDto.getNome() != null) {
+                pet.setNome(petDto.getNome());
+            }
+            if (!petDto.getDescricao().isEmpty() || petDto.getDescricao() != null) {
+                pet.setDescricao(petDto.getDescricao());
+            }
+            if (!petDto.getStatus().isEmpty() || petDto.getStatus() != null) {
+                pet.setStatus(StatusPet.valueOf(petDto.getStatus()));
+            }
+            if (!petDto.getTamanho().isEmpty() || petDto.getTamanho() != null) {
+                pet.setTamanho(TamanhoPet.valueOf(petDto.getTamanho()));
+            }
+            if (!petDto.getImagem().isEmpty() || petDto.getImagem() != null) {
+                pet.setImagem(petDto.getImagem());
+            }
 
             petRepository.save(pet);
         } else {
@@ -113,79 +125,102 @@ public class PetServiceImpl implements PetService {
                 .nomePet(pet.getNome())
                 .nomeContato(usuario.getNome())
                 .descricao(pet.getDescricao())
-                .status(pet.getStatus())
+                .status(pet.getStatus().name())
                 .imagem(pet.getImagem())
-                .tamanho(pet.getTamanho())
+                .tamanho(pet.getTamanho().name())
                 .telefone(usuario.getTelefone())
                 .build();
 
     }
 
     @Override
-    public List<PetResponseDto> getAllMyPets(String userId) {
+    public ListPetsDto getAllMyPets(String userId) {
         Usuario usuario = usuarioRepository.findById(userId).orElseThrow(UsuarioNaoEncontrado::new);
 
         return listPetToListPetDto(usuario.getPets());
     }
 
-    private List<PetResponseDto> listPetToListPetDto(List<Pet> pets) {
-        return pets.stream()
-                .map(pet -> PetResponseDto.builder()
-                        .id(pet.getId())
-                        .nomePet(pet.getNome())
-                        .nomeContato(pet.getUsuario().getNome())
-                        .descricao(pet.getDescricao())
-                        .status(pet.getStatus())
-                        .imagem(pet.getImagem())
-                        .tamanho(pet.getTamanho())
-                        .telefone(pet.getUsuario().getTelefone())
-                        .build()).collect(Collectors.toList());
+//    private ListPetsDto listPetToListPetDto(List<Pet> pets) {
+//        List<PetResponseDto> list = pets.stream()
+//                .map(pet -> PetResponseDto.builder()
+//                        .id(pet.getId())
+//                        .nomePet(pet.getNome())
+//                        .nomeContato(pet.getUsuario().getNome())
+//                        .descricao(pet.getDescricao())
+//                        .status(pet.getStatus().name())
+//                        .imagem(pet.getImagem())
+//                        .tamanho(pet.getTamanho().name())
+//                        .telefone(pet.getUsuario().getTelefone())
+//                        .build()).collect(Collectors.toList());
+//
+//        ListPetsDto listPetsDto = new ListPetsDto();
+//        listPetsDto.setPets(list);
+//
+//        return listPetsDto;
+//    }
+
+    private ListPetsDto listPetToListPetDto(List<Pet> pets) {
+        return new ListPetsDto(
+                pets.stream().map(pet -> {
+                    Usuario usuario = pet.getUsuario();
+                    return new PetResponseDto(
+                            pet.getId(),
+                            pet.getNome(),
+                            usuario.getNome(),
+                            pet.getDescricao(),
+                            pet.getStatus().name(),
+                            pet.getImagem(),
+                            pet.getTamanho().name(),
+                            usuario.getTelefone()
+                    );
+                }).collect(Collectors.toList())
+        );
     }
 
     @Override
-    public List<PetResponseDto> getAllPets() {
+    public ListPetsDto getAllPets() {
         List<Pet> pets = petRepository.findAll();
 
         return listPetToListPetDto(pets);
     }
 
     @Override
-    public List<PetResponseDto> getAllPetsSmall() {
+    public ListPetsDto getAllPetsSmall() {
         List<Pet> pets = petRepository.findByTamanho(TamanhoPet.PEQUENO);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
-    public List<PetResponseDto> getAllPetsMedium() {
+    public ListPetsDto getAllPetsMedium() {
         List<Pet> pets = petRepository.findByTamanho(TamanhoPet.MEDIO);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
-    public List<PetResponseDto> getAllPetsLarge() {
+    public ListPetsDto getAllPetsLarge() {
         List<Pet> pets = petRepository.findByTamanho(TamanhoPet.GRANDE);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
-    public List<PetResponseDto> getAllPetsAdotar() {
+    public ListPetsDto getAllPetsAdotar() {
         List<Pet> pets = petRepository.findByStatus(StatusPet.ADOTAR);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
-    public List<PetResponseDto> getAllPetsPerdido() {
+    public ListPetsDto getAllPetsPerdido() {
         List<Pet> pets = petRepository.findByStatus(StatusPet.PERDIDO);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
-    public List<PetResponseDto> getAllPetsEncontrado() {
+    public ListPetsDto getAllPetsEncontrado() {
         List<Pet> pets = petRepository.findByStatus(StatusPet.ENCONTRADO);
 
         return listPetToListPetDto(pets);
