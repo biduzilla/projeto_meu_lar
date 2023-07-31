@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/laranga"
+            android:background="@color/laranja"
             android:orientation="vertical">
 
             <LinearLayout
@@ -86,7 +86,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/on_focused"
-                        app:hintTextColor="@color/laranga">
+                        app:hintTextColor="@color/laranja">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_nome"
@@ -112,7 +112,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/on_focused"
-                        app:hintTextColor="@color/laranga">
+                        app:hintTextColor="@color/laranja">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_email"
@@ -138,7 +138,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/on_focused"
-                        app:hintTextColor="@color/laranga">
+                        app:hintTextColor="@color/laranja">
 
                         <com.santalu.maskara.widget.MaskEditText
                             android:id="@+id/edt_telefone"
@@ -167,7 +167,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/on_focused"
-                        app:hintTextColor="@color/laranga">
+                        app:hintTextColor="@color/laranja">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_senha"
@@ -193,7 +193,7 @@
                         app:boxCornerRadiusTopEnd="10dp"
                         app:boxCornerRadiusTopStart="10dp"
                         app:boxStrokeColor="@color/on_focused"
-                        app:hintTextColor="@color/laranga">
+                        app:hintTextColor="@color/laranja">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edt_confirmar_senha"
@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_gravity="center"
-                    android:indeterminateTint="@color/laranga"
+                    android:indeterminateTint="@color/laranja"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
