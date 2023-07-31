@@ -1,4 +1,4 @@
-package com.example.meu_lar
+package br.ricky.projeto_meu_lar
 
 import org.junit.Test
 

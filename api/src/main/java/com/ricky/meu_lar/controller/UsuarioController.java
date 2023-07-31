@@ -24,8 +24,9 @@ public class UsuarioController {
         usuarioService.salvarUser(usuarioDto);
     }
 
+    @CrossOrigin
     @PostMapping("login")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public TokenDto login(@Valid @RequestBody CredencialDto credencialDto){
         return usuarioService.login(credencialDto);
     }
