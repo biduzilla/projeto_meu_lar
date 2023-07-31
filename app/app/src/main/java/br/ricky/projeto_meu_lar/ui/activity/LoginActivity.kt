@@ -1,23 +1,16 @@
-package br.ricky.projeto_meu_lar
+package br.ricky.projeto_meu_lar.ui.activity
 
-import android.opengl.Visibility
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import br.ricky.projeto_meu_lar.databinding.ActivityMainBinding
 import br.ricky.projeto_meu_lar.model.CredencialUser
-import br.ricky.projeto_meu_lar.model.LoginUser
-import br.ricky.projeto_meu_lar.network.RetrofitInstance
 import br.ricky.projeto_meu_lar.repository.UserRepository
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -35,6 +28,11 @@ class MainActivity : AppCompatActivity() {
     private fun onClick() {
         binding.btnLogin.setOnClickListener {
             validaDados()
+        }
+        binding.btnCriarConta.setOnClickListener {
+            Intent(baseContext, CadastrarContaActivity::class.java).apply {
+                startActivity(this)
+            }
         }
     }
 
