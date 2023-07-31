@@ -1,7 +1,6 @@
 package br.ricky.projeto_meu_lar.repository
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import br.ricky.projeto_meu_lar.model.CredencialUser
 import br.ricky.projeto_meu_lar.model.ErrorMensagem

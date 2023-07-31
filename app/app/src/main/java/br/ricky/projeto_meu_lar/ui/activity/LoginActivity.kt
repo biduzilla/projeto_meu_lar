@@ -1,11 +1,14 @@
 package br.ricky.projeto_meu_lar.ui.activity
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
 import br.ricky.projeto_meu_lar.databinding.ActivityMainBinding
+import br.ricky.projeto_meu_lar.extensions.iniciaActivity
 import br.ricky.projeto_meu_lar.model.CredencialUser
 import br.ricky.projeto_meu_lar.repository.UserRepository
 import kotlinx.coroutines.launch
@@ -30,13 +33,18 @@ class LoginActivity : AppCompatActivity() {
             validaDados()
         }
         binding.btnCriarConta.setOnClickListener {
-            Intent(baseContext, CadastrarContaActivity::class.java).apply {
-                startActivity(this)
-            }
+            iniciaActivity(CadastrarContaActivity::class.java)
         }
     }
 
+    private fun ocultarTeclado() {
+        val imm =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.btnLogin.windowToken, 0)
+    }
+
     private fun validaDados() {
+        ocultarTeclado()
         with(binding) {
             val email = edtEmail.text.toString().trim()
             val senha = edtSenha.text.toString().trim()
