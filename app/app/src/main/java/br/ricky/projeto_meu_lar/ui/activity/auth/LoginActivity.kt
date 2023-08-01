@@ -12,6 +12,7 @@ import br.ricky.projeto_meu_lar.extensions.iniciaActivity
 import br.ricky.projeto_meu_lar.model.CredencialUser
 import br.ricky.projeto_meu_lar.model.LoginUser
 import br.ricky.projeto_meu_lar.repository.UserRepository
+import br.ricky.projeto_meu_lar.ui.activity.HomeActivity
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
@@ -78,6 +79,8 @@ class LoginActivity : AppCompatActivity() {
 
         user?.let {
             SharedPref(this).salvarToken(user.token)
+
+            iniciaActivity(HomeActivity::class.java)
         }
     }
 }
