@@ -1,11 +1,9 @@
 package br.ricky.projeto_meu_lar.utils
 
-import android.widget.ImageView
-import java.lang.Byte.decode
-import java.util.*
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import android.widget.ImageView
 import java.io.ByteArrayInputStream
 
 fun ImageView.base64ToBitmap(base64: String) {

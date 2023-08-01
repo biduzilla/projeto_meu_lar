@@ -25,9 +25,7 @@ class UserRepository {
         }
         if (response.isSuccessful) {
             response.body()?.let {
-                val user: LoginUser = it
-                Toast.makeText(context, "Sucesso", Toast.LENGTH_SHORT).show()
-                return user
+                return it
             }
         } else {
 
@@ -46,7 +44,16 @@ class UserRepository {
     }
 
     suspend fun criarConta(user: UsuarioConta, context: Context): Boolean {
-        val response: Response<Void> = RetrofitInstance.api.cadastrarConta(user)
+        val response: Response<Void> =
+            try {
+                RetrofitInstance.api.cadastrarConta(user)
+            } catch (e: IOException) {
+                Toast.makeText(context, "Sem internet", Toast.LENGTH_SHORT).show()
+                return false
+            } catch (e: HttpException) {
+                Toast.makeText(context, "Resposta inesperada", Toast.LENGTH_SHORT).show()
+                return false
+            }
 
         return if (response.isSuccessful) {
             Toast.makeText(context, "Conta criada com sucesso", Toast.LENGTH_SHORT).show()

@@ -79,8 +79,11 @@ class LoginActivity : AppCompatActivity() {
 
         user?.let {
             SharedPref(this).salvarToken(user.token)
+            SharedPref(this).salvarIdUser(user.idUser)
+            SharedPref(this).salvarNomeUser(user.nome)
 
             iniciaActivity(HomeActivity::class.java)
+            finish()
         }
     }
 }

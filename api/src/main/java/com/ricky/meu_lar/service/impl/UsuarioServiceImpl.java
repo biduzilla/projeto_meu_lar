@@ -139,7 +139,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
             Usuario userPronto = usuarioRepository.findByEmail(usuario.getEmail()).orElseThrow(UsuarioNaoEncontrado::new);
 
-            return new TokenDto(token, userPronto.getId());
+            return new TokenDto(token, userPronto.getId(), userPronto.getNome());
         } catch (UsuarioNaoEncontrado e) {
             throw new UsuarioNaoEncontrado();
         }

@@ -27,12 +27,14 @@ public class Pet {
     @Column(name = "pet_nome")
     private String nome;
 
+    @Lob
     @Column(name = "pet_descricao")
     private String descricao;
 
     @Column(name = "pet_status")
     private StatusPet status;
 
+    @Lob
     @Column(name = "pet_img")
     private String imagem;
 

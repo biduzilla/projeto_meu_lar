@@ -13,4 +13,5 @@ import javax.validation.constraints.NotEmpty;
 public class TokenDto {
     private String token;
     private String idUser;
+    private String nome;
 }
