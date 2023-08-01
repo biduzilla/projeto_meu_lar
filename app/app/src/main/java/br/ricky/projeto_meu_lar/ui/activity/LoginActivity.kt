@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
+import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.ActivityMainBinding
 import br.ricky.projeto_meu_lar.extensions.iniciaActivity
 import br.ricky.projeto_meu_lar.model.CredencialUser
+import br.ricky.projeto_meu_lar.model.LoginUser
 import br.ricky.projeto_meu_lar.repository.UserRepository
 import kotlinx.coroutines.launch
 
@@ -73,6 +75,10 @@ class LoginActivity : AppCompatActivity() {
     private suspend fun login(email: String, senha: String) {
         val login: CredencialUser = CredencialUser(email, senha)
 
-        userRepository.login(login, baseContext)
+        val user: LoginUser? = userRepository.login(login, baseContext)
+
+        user?.let {
+            SharedPref(this).salvarToken(user.token)
+        }
     }
 }
