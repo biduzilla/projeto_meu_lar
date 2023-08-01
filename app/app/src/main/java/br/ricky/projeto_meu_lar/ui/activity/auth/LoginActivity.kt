@@ -1,7 +1,6 @@
-package br.ricky.projeto_meu_lar.ui.activity
+package br.ricky.projeto_meu_lar.ui.activity.auth
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View

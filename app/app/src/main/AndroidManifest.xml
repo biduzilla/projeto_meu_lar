@@ -13,8 +13,14 @@
         android:theme="@style/Theme.Projeto_meu_lar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.activity.DetalhesPetActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.SplashActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,13 +28,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.CadastrarContaActivity"
+            android:name=".ui.activity.auth.CadastrarContaActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.activity.LoginActivity"
-            android:exported="true">
-
-        </activity>
+            android:name=".ui.activity.auth.LoginActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

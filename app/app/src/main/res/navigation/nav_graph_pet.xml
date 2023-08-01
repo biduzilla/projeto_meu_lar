@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_pet"
+    app:startDestination="@id/menu_home">
+
+    <fragment
+        android:id="@+id/menu_home"
+        android:name="br.ricky.projeto_meu_lar.ui.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/menu_perdido"
+        android:name="br.ricky.projeto_meu_lar.ui.fragments.PerdidoEncontradoFragment"
+        android:label="fragment_perdido_encontrado"
+        tools:layout="@layout/fragment_perdido_encontrado" />
+    <fragment
+        android:id="@+id/menu_config"
+        android:name="br.ricky.projeto_meu_lar.ui.fragments.ConfigFragment"
+        android:label="fragment_config"
+        tools:layout="@layout/fragment_config" />
+</navigation>

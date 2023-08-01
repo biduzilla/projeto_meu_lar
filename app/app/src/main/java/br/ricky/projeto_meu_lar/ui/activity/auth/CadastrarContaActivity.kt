@@ -1,4 +1,4 @@
-package br.ricky.projeto_meu_lar.ui.activity
+package br.ricky.projeto_meu_lar.ui.activity.auth
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
