@@ -33,7 +33,11 @@ class PetAdapter(
             with(binding) {
                 tvNomePet.text = pet.nomePet
                 tvDesc.text = pet.descricao
-                tvStatus.text = pet.status
+                if (pet.status == "ADOTAR") {
+                    tvStatus.text = "Adoção"
+                } else {
+                    "Error"
+                }
                 imgPet.base64ToBitmap(pet.imagem)
             }
         }

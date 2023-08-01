@@ -3,6 +3,7 @@ package br.ricky.projeto_meu_lar.ui.fragments
 import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,7 +36,11 @@ class HomeFragment : Fragment() {
     private val adapter = PetAdapter()
     private var petsRecuperados = mutableListOf<Pet>()
     private var loginUser: LoginUser? = null
-
+    private val laranja: Int = Color.parseColor("#f8a300")
+    private val branco: Int = Color.parseColor("#FFFFFFFF")
+    private var isPequeno: Boolean = false
+    private var isMedio: Boolean = false
+    private var isGrande: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,12 +75,25 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     private fun configClicks() {
         with(binding) {
             btnSair.setOnClickListener {
                 SharedPref(requireActivity()).salvarToken("")
                 requireActivity().iniciaActivity(LoginActivity::class.java)
                 requireActivity().finish()
+            }
+
+            cardPequeno.setOnClickListener {
+                changeCardPequenoColor()
+            }
+
+            cardMedio.setOnClickListener {
+                changeCardMedioColor()
+            }
+
+            cardGrande.setOnClickListener {
+                changeCardGrandeColor()
             }
 
             edtSearch.addTextChangedListener(object : TextWatcher {
@@ -91,6 +109,76 @@ class HomeFragment : Fragment() {
                     filtrarNomePet(edtSearch.text.toString())
                 }
             })
+        }
+    }
+
+    private fun FragmentHomeBinding.changeCardGrandeColor() {
+        if (isGrande) {
+            cardGrande.setCardBackgroundColor(branco)
+            tvGrande.setTextColor(laranja)
+
+            isGrande = false
+            adapter.atualiza(petsRecuperados)
+        } else {
+            cardGrande.setCardBackgroundColor(laranja)
+            tvGrande.setTextColor(branco)
+
+            cardMedio.setCardBackgroundColor(branco)
+            tvMedio.setTextColor(laranja)
+
+            cardPequeno.setCardBackgroundColor(branco)
+            tvPequeno.setTextColor(laranja)
+
+            filtrarTamanhoPet(3)
+
+            isGrande = true
+        }
+    }
+
+    private fun FragmentHomeBinding.changeCardMedioColor() {
+        if (isMedio) {
+            cardMedio.setCardBackgroundColor(branco)
+            tvMedio.setTextColor(laranja)
+
+            isMedio = false
+            adapter.atualiza(petsRecuperados)
+        } else {
+            cardMedio.setCardBackgroundColor(laranja)
+            tvMedio.setTextColor(branco)
+
+            cardPequeno.setCardBackgroundColor(branco)
+            tvPequeno.setTextColor(laranja)
+
+            cardGrande.setCardBackgroundColor(branco)
+            tvGrande.setTextColor(laranja)
+
+            isMedio = true
+
+            filtrarTamanhoPet(2)
+        }
+    }
+
+    private fun FragmentHomeBinding.changeCardPequenoColor() {
+        if (isPequeno) {
+            cardPequeno.setCardBackgroundColor(branco)
+            tvPequeno.setTextColor(laranja)
+
+            isPequeno = false
+
+            adapter.atualiza(petsRecuperados)
+        } else {
+            cardPequeno.setCardBackgroundColor(laranja)
+            tvPequeno.setTextColor(branco)
+
+            cardMedio.setCardBackgroundColor(branco)
+            tvMedio.setTextColor(laranja)
+
+            cardGrande.setCardBackgroundColor(branco)
+            tvGrande.setTextColor(laranja)
+
+            isPequeno = true
+
+            filtrarTamanhoPet(1)
         }
     }
 
@@ -125,6 +213,36 @@ class HomeFragment : Fragment() {
             }
         }
         adapter.atualiza(lstPets)
+    }
+
+    private fun filtrarTamanhoPet(code: Int) {
+        val lstPets = mutableListOf<Pet>()
+        when (code) {
+            1 -> {
+                petsRecuperados.forEach {
+                    if (it.tamanho == "PEQUENO") {
+                        lstPets.add(it)
+                    }
+                    adapter.atualiza(lstPets)
+                }
+            }
+            2 -> {
+                petsRecuperados.forEach {
+                    if (it.tamanho == "MEDIO") {
+                        lstPets.add(it)
+                    }
+                    adapter.atualiza(lstPets)
+                }
+            }
+            3 -> {
+                petsRecuperados.forEach {
+                    if (it.tamanho == "GRANDE") {
+                        lstPets.add(it)
+                    }
+                    adapter.atualiza(lstPets)
+                }
+            }
+        }
     }
 
     private fun configRv() {

@@ -7,7 +7,7 @@
     <item
         android:id="@+id/menu_perdido"
         android:icon="@drawable/ic_perdido"
-        android:title="Perdidos/Encotrados" />
+        android:title="Perdidos/Encontrados" />
     <item
         android:id="@+id/menu_config"
         android:icon="@drawable/ic_settings"

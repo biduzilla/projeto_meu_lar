@@ -64,9 +64,12 @@ class LoginActivity : AppCompatActivity() {
                     progressCircular.visibility = View.VISIBLE
                     btnLogin.visibility = View.GONE
 
-                    lifecycleScope.launch { login(email, senha) }
-                    progressCircular.visibility = View.GONE
-                    btnLogin.visibility = View.VISIBLE
+                    lifecycleScope.launch {
+                        login(email, senha)
+                        progressCircular.visibility = View.GONE
+                        btnLogin.visibility = View.VISIBLE
+                    }
+
                 }
             }
         }
