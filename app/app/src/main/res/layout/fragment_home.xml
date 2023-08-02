@@ -71,7 +71,7 @@
                 android:drawableTint="@color/on_focused_search"
                 android:hint="Nome..."
                 android:padding="16dp"
-                android:textColor="@color/black"
+                android:textColor="@color/on_focused_search"
                 android:textColorHint="@color/on_focused_search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

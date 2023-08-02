@@ -100,21 +100,25 @@ class HomeFragment : Fragment() {
 
             cardPequeno.setOnClickListener {
                 ocultarTeclado()
+                edtSearch.clearFocus()
                 changeCardPequenoColor()
             }
 
             cardMedio.setOnClickListener {
                 ocultarTeclado()
+                edtSearch.clearFocus()
                 changeCardMedioColor()
             }
 
             cardGrande.setOnClickListener {
                 ocultarTeclado()
+                edtSearch.clearFocus()
                 changeCardGrandeColor()
             }
 
             cardMeusPets.setOnClickListener {
                 ocultarTeclado()
+                edtSearch.clearFocus()
                 changeCardMeusPetsColor()
             }
 
