@@ -185,43 +185,53 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public ListPetsDto getAllPetsPerdidosEncontrados() {
+
+
+        List<Pet> pets = petRepository.findByStatus(StatusPet.ENCONTRADO).orElseThrow(PetNaoEncontrado::new);
+        pets.addAll(petRepository.findByStatus(StatusPet.PERDIDO).orElseThrow(PetNaoEncontrado::new));
+
+        return listPetToListPetDto(pets);
+    }
+
+    @Override
     public ListPetsDto getAllPetsSmall() {
-        List<Pet> pets = petRepository.findByTamanho(TamanhoPet.PEQUENO);
+        List<Pet> pets = petRepository.findByTamanho(TamanhoPet.PEQUENO).orElseThrow(PetNaoEncontrado::new);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
     public ListPetsDto getAllPetsMedium() {
-        List<Pet> pets = petRepository.findByTamanho(TamanhoPet.MEDIO);
+        List<Pet> pets = petRepository.findByTamanho(TamanhoPet.MEDIO).orElseThrow(PetNaoEncontrado::new);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
     public ListPetsDto getAllPetsLarge() {
-        List<Pet> pets = petRepository.findByTamanho(TamanhoPet.GRANDE);
+        List<Pet> pets = petRepository.findByTamanho(TamanhoPet.GRANDE).orElseThrow(PetNaoEncontrado::new);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
     public ListPetsDto getAllPetsAdotar() {
-        List<Pet> pets = petRepository.findByStatus(StatusPet.ADOTAR);
+        List<Pet> pets = petRepository.findByStatus(StatusPet.ADOTAR).orElseThrow(PetNaoEncontrado::new);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
     public ListPetsDto getAllPetsPerdido() {
-        List<Pet> pets = petRepository.findByStatus(StatusPet.PERDIDO);
+        List<Pet> pets = petRepository.findByStatus(StatusPet.PERDIDO).orElseThrow(PetNaoEncontrado::new);
 
         return listPetToListPetDto(pets);
     }
 
     @Override
     public ListPetsDto getAllPetsEncontrado() {
-        List<Pet> pets = petRepository.findByStatus(StatusPet.ENCONTRADO);
+        List<Pet> pets = petRepository.findByStatus(StatusPet.ENCONTRADO).orElseThrow(PetNaoEncontrado::new);
 
         return listPetToListPetDto(pets);
     }

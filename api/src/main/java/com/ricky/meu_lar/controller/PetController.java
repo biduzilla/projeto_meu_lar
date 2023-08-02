@@ -28,6 +28,11 @@ public class PetController {
         return petService.getAllPets();
     }
 
+    @GetMapping("todos_pets_perdidos_encontrados")
+    public ListPetsDto getAllPetsPerdidoEncontrado() {
+        return petService.getAllPetsPerdidosEncontrados();
+    }
+
     @GetMapping("todos_pets_pequeno")
     public ListPetsDto getAllPetsSmall() {
         return petService.getAllPetsSmall();
@@ -59,12 +64,12 @@ public class PetController {
     }
 
     @PostMapping("cadastrar_pet/{idUser}")
-    public void cadastrarPet(@Valid @RequestBody PetRequisicaoDto pet,@PathVariable String idUser) {
+    public void cadastrarPet(@Valid @RequestBody PetRequisicaoDto pet, @PathVariable String idUser) {
         petService.cadastrarPet(pet, idUser);
     }
 
     @PutMapping("atualizar_pet/{idPet}/{idUser}")
-    public void atualizarPet(@Valid @RequestBody PetUpdateRequisicaoDto pet,@PathVariable String idPet,@PathVariable String idUser) {
+    public void atualizarPet(@Valid @RequestBody PetUpdateRequisicaoDto pet, @PathVariable String idPet, @PathVariable String idUser) {
         petService.updatePet(pet, idPet, idUser);
     }
 

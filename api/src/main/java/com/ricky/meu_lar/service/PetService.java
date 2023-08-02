@@ -21,6 +21,7 @@ public interface PetService {
     ListPetsDto getAllMyPets(String userId);
 
     ListPetsDto getAllPets();
+    ListPetsDto getAllPetsPerdidosEncontrados();
 
     ListPetsDto getAllPetsSmall();
 

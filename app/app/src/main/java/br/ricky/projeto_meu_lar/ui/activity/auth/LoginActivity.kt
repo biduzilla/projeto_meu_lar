@@ -66,10 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
                     lifecycleScope.launch {
                         login(email, senha)
-                        progressCircular.visibility = View.GONE
-                        btnLogin.visibility = View.VISIBLE
                     }
-
                 }
             }
         }
@@ -86,7 +83,13 @@ class LoginActivity : AppCompatActivity() {
             SharedPref(this).salvarNomeUser(user.nome)
 
             iniciaActivity(HomeActivity::class.java)
+
             finish()
+        } ?: run {
+            with(binding) {
+                progressCircular.visibility = View.GONE
+                btnLogin.visibility = View.VISIBLE
+            }
         }
     }
 }

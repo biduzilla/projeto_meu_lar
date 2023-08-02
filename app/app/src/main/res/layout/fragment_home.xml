@@ -36,13 +36,13 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_circulo"
                     android:src="@drawable/ic_person"
-                    app:tint="@color/laranja" />
+                    app:tint="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_nome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     tools:text="Nome" />

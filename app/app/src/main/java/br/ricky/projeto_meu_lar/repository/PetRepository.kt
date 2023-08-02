@@ -18,7 +18,7 @@ class PetRepository {
         val response: Response<Pets> = try {
             RetrofitInstance.api.getAllPetsAdotar(token)
         } catch (e: IOException) {
-            Toast.makeText(context, "Sem internet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Problema com conexão", Toast.LENGTH_SHORT).show()
             return null
         } catch (e: HttpException) {
             Toast.makeText(context, "Resposta inesperada", Toast.LENGTH_SHORT).show()

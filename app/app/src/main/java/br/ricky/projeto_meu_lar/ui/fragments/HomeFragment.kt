@@ -62,13 +62,14 @@ class HomeFragment : Fragment() {
             binding.tvNome.text = it.nome
         }
 
-        with(binding) {
-            rv.visibility = View.GONE
-            progressCircular.visibility = View.VISIBLE
-        }
         if (petsRecuperados.isEmpty()) {
+            with(binding) {
+                progressCircular.visibility = View.VISIBLE
+                rv.visibility = View.GONE
+            }
             recuperaPets()
         }
+
         with(binding) {
             progressCircular.visibility = View.GONE
             rv.visibility = View.VISIBLE
@@ -129,9 +130,11 @@ class HomeFragment : Fragment() {
             cardPequeno.setCardBackgroundColor(branco)
             tvPequeno.setTextColor(laranja)
 
-            filtrarTamanhoPet(3)
-
             isGrande = true
+            changeCardPequenoColor()
+            changeCardMedioColor()
+
+            filtrarTamanhoPet(3)
         }
     }
 
@@ -153,6 +156,8 @@ class HomeFragment : Fragment() {
             tvGrande.setTextColor(laranja)
 
             isMedio = true
+            changeCardGrandeColor()
+            changeCardPequenoColor()
 
             filtrarTamanhoPet(2)
         }
@@ -177,6 +182,8 @@ class HomeFragment : Fragment() {
             tvGrande.setTextColor(laranja)
 
             isPequeno = true
+            changeCardGrandeColor()
+            changeCardMedioColor()
 
             filtrarTamanhoPet(1)
         }
@@ -195,11 +202,11 @@ class HomeFragment : Fragment() {
                 PetRepository().getAllPetsAdotar(requireContext(), token)?.let { petsList ->
                     petsRecuperados = petsList.toMutableList()
                     adapter.atualiza(petsList)
-                    Log.i("infoteste", "recuperaPets: $petsList")
-                }
-                with(binding) {
-                    progressCircular.visibility = View.GONE
-                    rv.visibility = View.VISIBLE
+
+                    with(binding) {
+                        progressCircular.visibility = View.GONE
+                        rv.visibility = View.VISIBLE
+                    }
                 }
             }
         }
