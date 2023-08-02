@@ -315,7 +315,6 @@ class HomeFragment : Fragment() {
             rv.layoutManager = LinearLayoutManager(requireActivity())
             adapter.onClick = { pet ->
                 binding.edtSearch.text.clear()
-                Toast.makeText(requireContext(), pet.nomePet, Toast.LENGTH_SHORT).show()
                 Intent(requireContext(), DetalhesPetActivity::class.java).apply {
 
                     val meuPet: Boolean = meusPetsRecuperados.contains(pet)

@@ -28,6 +28,13 @@ class DetalhesPetActivity : AppCompatActivity() {
 
         carregaToken()
         tentaCarregarVaga()
+        configClicks()
+    }
+
+    private fun configClicks() {
+        with(binding) {
+            toolbar.btnVoltar.setOnClickListener { finish() }
+        }
     }
 
     private fun carregaToken() {

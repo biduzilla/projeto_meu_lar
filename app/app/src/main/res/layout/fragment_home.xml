@@ -199,5 +199,15 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
             tools:listitem="@layout/item_pet"
             tools:visibility="visible" />
+
+        <android.widget.ImageButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="32dp"
+            android:src="@drawable/ic_add"
+            android:tint="@color/white"
+            android:background="@drawable/btn_circulo_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
