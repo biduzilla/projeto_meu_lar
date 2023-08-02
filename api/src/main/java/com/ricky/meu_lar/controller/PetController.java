@@ -33,6 +33,11 @@ public class PetController {
         return petService.getAllPetsPerdidosEncontrados();
     }
 
+    @GetMapping("todos_meus_pets/{idUser}")
+    public ListPetsDto getAllMyPets(@PathVariable String idUser) {
+        return petService.getAllMyPets(idUser);
+    }
+
     @GetMapping("todos_pets_pequeno")
     public ListPetsDto getAllPetsSmall() {
         return petService.getAllPetsSmall();

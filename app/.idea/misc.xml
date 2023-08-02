@@ -15,10 +15,13 @@
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/bg_circulo.xml" value="0.1359375" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/bg_edt_arredondada.xml" value="0.1359375" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/borda_arredondada_edt.xml" value="0.1359375" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/borda_arredondada_laranja.xml" value="0.15833333333333333" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/ic_exit.xml" value="0.1359375" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/ic_menu.xml" value="0.15833333333333333" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/item_selected.xml" value="0.1" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_cadastrar_conta.xml" value="0.25" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_criar_conta.xml" value="0.25" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_detalhes_pet.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_home.xml" value="0.18" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_splash.xml" value="0.16" />
@@ -26,6 +29,7 @@
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_perdido_encontrado.xml" value="0.10572916666666667" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/item_pet.xml" value="0.33" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/toolbar_sair_menu.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/menu/menu_pet.xml" value="0.22" />
       </map>
     </option>

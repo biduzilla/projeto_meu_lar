@@ -140,25 +140,6 @@ public class PetServiceImpl implements PetService {
         return listPetToListPetDto(usuario.getPets());
     }
 
-//    private ListPetsDto listPetToListPetDto(List<Pet> pets) {
-//        List<PetResponseDto> list = pets.stream()
-//                .map(pet -> PetResponseDto.builder()
-//                        .id(pet.getId())
-//                        .nomePet(pet.getNome())
-//                        .nomeContato(pet.getUsuario().getNome())
-//                        .descricao(pet.getDescricao())
-//                        .status(pet.getStatus().name())
-//                        .imagem(pet.getImagem())
-//                        .tamanho(pet.getTamanho().name())
-//                        .telefone(pet.getUsuario().getTelefone())
-//                        .build()).collect(Collectors.toList());
-//
-//        ListPetsDto listPetsDto = new ListPetsDto();
-//        listPetsDto.setPets(list);
-//
-//        return listPetsDto;
-//    }
-
     private ListPetsDto listPetToListPetDto(List<Pet> pets) {
         return new ListPetsDto(
                 pets.stream().map(pet -> {
@@ -171,7 +152,7 @@ public class PetServiceImpl implements PetService {
                             pet.getStatus().name(),
                             pet.getImagem(),
                             pet.getTamanho().name(),
-                            usuario.getTelefone()
+                            pet.getUsuario().getTelefone()
                     );
                 }).collect(Collectors.toList())
         );
