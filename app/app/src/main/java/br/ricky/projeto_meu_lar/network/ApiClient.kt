@@ -2,10 +2,7 @@ package br.ricky.projeto_meu_lar.network
 
 import br.ricky.projeto_meu_lar.model.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiClient {
 
@@ -16,5 +13,17 @@ interface ApiClient {
     suspend fun cadastrarConta(@Body user: UsuarioConta): Response<Void>
 
     @GET("pet/todos_pets_adotar")
-    suspend fun getAllPetsAdotar(@Header("Authorization") token:String): Response<Pets>
+    suspend fun getAllPetsAdotar(@Header("Authorization") token: String): Response<Pets>
+
+    @GET("pet/todos_meus_pets/{idUser}")
+    suspend fun getAllMyPets(
+        @Header("Authorization") token: String,
+        @Path("idUser") idUser: String
+    ): Response<Pets>
+
+    @GET("pet/dados_pet/{idPet}")
+    suspend fun getPetById(
+        @Header("Authorization") token: String,
+        @Path("idPet") idPet: String
+    ): Response<Pet>
 }

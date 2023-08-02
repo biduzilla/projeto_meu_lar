@@ -39,12 +39,67 @@ class PetRepository {
                 )
 
                 mensagemError?.let {
-
+                    Toast.makeText(context, mensagemError.error[0], Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Log.i("infoteste", "getAllPetsAdotar: ${response.body().toString()}")
+                Toast.makeText(context, "Error ao tentar se conectar", Toast.LENGTH_SHORT).show()
             }
 
+        }
+        return null
+    }
+
+    suspend fun getAllMyPets(context: Context, idUser: String, token: String): List<Pet>? {
+        try {
+            val response = RetrofitInstance.api.getAllMyPets(token, idUser)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return it.pets
+                }
+            } else {
+                val mensagemError = Gson().fromJson(
+                    response
+                        .errorBody()
+                        ?.charStream(),
+                    ErrorMensagem::class.java
+                )
+
+                mensagemError?.let {
+                    Toast.makeText(context, mensagemError.error[0], Toast.LENGTH_SHORT).show()
+                }
+                return null
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error ao tentar se conectar", Toast.LENGTH_SHORT).show()
+        }
+        return null
+    }
+
+    suspend fun getPetById(context: Context, idPet: String, token: String): Pet? {
+        try {
+            val response = RetrofitInstance.api.getPetById(token, idPet)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return it
+                }
+            } else {
+                val mensagemError = Gson().fromJson(
+                    response
+                        .errorBody()
+                        ?.charStream(),
+                    ErrorMensagem::class.java
+                )
+
+                mensagemError?.let {
+                    Toast.makeText(context, mensagemError.error[0], Toast.LENGTH_SHORT).show()
+                }
+                return null
+            }
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error ao tentar se conectar", Toast.LENGTH_SHORT).show()
         }
         return null
     }
