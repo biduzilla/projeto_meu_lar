@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.ricky.projeto_meu_lar.CHAVE_ID_PET
+import br.ricky.projeto_meu_lar.CHAVE_MEU_PET
 import br.ricky.projeto_meu_lar.R
 import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.FragmentHomeBinding
@@ -312,13 +313,17 @@ class HomeFragment : Fragment() {
         with(binding) {
             rv.adapter = adapter
             rv.layoutManager = LinearLayoutManager(requireActivity())
-            adapter.onClick = {
+            adapter.onClick = { pet ->
                 binding.edtSearch.text.clear()
-                Toast.makeText(requireContext(), it.nomePet, Toast.LENGTH_SHORT).show()
-//                Intent(requireContext(), DetalhesPetActivity::class.java).apply {
-//                    putExtra(CHAVE_ID_PET, it.id)
-//
-//                }
+                Toast.makeText(requireContext(), pet.nomePet, Toast.LENGTH_SHORT).show()
+                Intent(requireContext(), DetalhesPetActivity::class.java).apply {
+
+                    val meuPet: Boolean = meusPetsRecuperados.contains(pet)
+
+                    putExtra(CHAVE_ID_PET, pet.id)
+                    putExtra(CHAVE_MEU_PET, meuPet)
+                    startActivity(this)
+                }
             }
         }
     }

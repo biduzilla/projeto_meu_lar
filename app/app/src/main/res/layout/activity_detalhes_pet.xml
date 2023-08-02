@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.activity.DetalhesPetActivity">
 
     <include
@@ -19,20 +20,21 @@
         android:layout_height="0dp"
         android:fillViewport="true"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/img_pet"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +50,7 @@
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
                 android:textColor="@color/white"
-                android:textSize="22sp"
+                android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_pet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_pet"
@@ -79,19 +81,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_desc"
                 tools:text="tamanho" />
 
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="@color/laranja"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_tamanho"
-                tools:text="status" />
-
             <android.widget.Button
                 android:id="@+id/btn_ligar"
                 android:layout_width="wrap_content"
@@ -109,8 +98,16 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_status"
+                app:layout_constraintTop_toBottomOf="@+id/tv_tamanho"
                 tools:text="(99)99999-9999" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_ligar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -128,5 +125,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:visibility="visible" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

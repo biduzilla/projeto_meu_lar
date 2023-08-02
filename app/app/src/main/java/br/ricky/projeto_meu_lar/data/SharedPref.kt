@@ -38,4 +38,8 @@ class SharedPref(activity: Activity) {
             return LoginUser(token = token!!, idUser = idUser!!, nome = nomeUser!!)
         }
     }
+
+    fun getToken(): String? {
+        return sharedPreferences.getString(CHAVE_TOKEN, "")
+    }
 }
