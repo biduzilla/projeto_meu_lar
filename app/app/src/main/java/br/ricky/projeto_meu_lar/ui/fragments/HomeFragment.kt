@@ -35,12 +35,14 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter = PetAdapter()
     private var petsRecuperados = mutableListOf<Pet>()
+    private var meusPetsRecuperados = mutableListOf<Pet>()
     private var loginUser: LoginUser? = null
     private val laranja: Int = Color.parseColor("#f8a300")
     private val branco: Int = Color.parseColor("#FFFFFFFF")
     private var isPequeno: Boolean = false
     private var isMedio: Boolean = false
     private var isGrande: Boolean = false
+    private var isMyPet: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +99,10 @@ class HomeFragment : Fragment() {
                 changeCardGrandeColor()
             }
 
+            cardMeusPets.setOnClickListener {
+                changeCardMeusPetsColor()
+            }
+
             edtSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -130,11 +136,43 @@ class HomeFragment : Fragment() {
             cardPequeno.setCardBackgroundColor(branco)
             tvPequeno.setTextColor(laranja)
 
+            cardMeusPets.setCardBackgroundColor(branco)
+            tvMeusPets.setTextColor(laranja)
+
             isGrande = true
-            changeCardPequenoColor()
-            changeCardMedioColor()
+            isMyPet = false
+            isMedio = false
+            isPequeno = false
 
             filtrarTamanhoPet(3)
+        }
+    }
+
+    private fun FragmentHomeBinding.changeCardMeusPetsColor() {
+        if (isMyPet) {
+            cardMeusPets.setCardBackgroundColor(branco)
+            tvMeusPets.setTextColor(laranja)
+
+            isMyPet = false
+            adapter.atualiza(petsRecuperados)
+        } else {
+            cardMeusPets.setCardBackgroundColor(laranja)
+            tvMeusPets.setTextColor(branco)
+
+            cardMedio.setCardBackgroundColor(branco)
+            tvMedio.setTextColor(laranja)
+
+            cardPequeno.setCardBackgroundColor(branco)
+            tvPequeno.setTextColor(laranja)
+
+            cardGrande.setCardBackgroundColor(branco)
+            tvGrande.setTextColor(laranja)
+
+            isMyPet = true
+            isGrande = false
+            isMedio = false
+            isPequeno = false
+            adapter.atualiza(meusPetsRecuperados)
         }
     }
 
@@ -149,6 +187,9 @@ class HomeFragment : Fragment() {
             cardMedio.setCardBackgroundColor(laranja)
             tvMedio.setTextColor(branco)
 
+            cardMeusPets.setCardBackgroundColor(branco)
+            tvMeusPets.setTextColor(laranja)
+
             cardPequeno.setCardBackgroundColor(branco)
             tvPequeno.setTextColor(laranja)
 
@@ -156,8 +197,9 @@ class HomeFragment : Fragment() {
             tvGrande.setTextColor(laranja)
 
             isMedio = true
-            changeCardGrandeColor()
-            changeCardPequenoColor()
+            isPequeno = false
+            isGrande = false
+            isMyPet = false
 
             filtrarTamanhoPet(2)
         }
@@ -181,9 +223,13 @@ class HomeFragment : Fragment() {
             cardGrande.setCardBackgroundColor(branco)
             tvGrande.setTextColor(laranja)
 
+            cardMeusPets.setCardBackgroundColor(branco)
+            tvMeusPets.setTextColor(laranja)
+
             isPequeno = true
-            changeCardGrandeColor()
-            changeCardMedioColor()
+            isGrande = false
+            isMyPet = false
+            isMedio = false
 
             filtrarTamanhoPet(1)
         }
@@ -195,8 +241,7 @@ class HomeFragment : Fragment() {
 
     private fun recuperaPets() {
 
-        loginUser?.token.let {
-            val token = "Bearer $it"
+        loginUser?.token?.let { token ->
 
             lifecycleScope.launch {
                 PetRepository().getAllPetsAdotar(requireContext(), token)?.let { petsList ->
@@ -208,6 +253,17 @@ class HomeFragment : Fragment() {
                         rv.visibility = View.VISIBLE
                     }
                 }
+            }
+
+            lifecycleScope.launch {
+                PetRepository().getAllMyPets(
+                    requireContext(),
+                    idUser = loginUser!!.idUser,
+                    token = token
+                )
+                    ?.let { petsList ->
+                        meusPetsRecuperados = petsList.toMutableList()
+                    }
             }
         }
     }

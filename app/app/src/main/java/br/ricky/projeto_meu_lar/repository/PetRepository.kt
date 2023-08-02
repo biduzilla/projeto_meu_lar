@@ -69,11 +69,11 @@ class PetRepository {
                 mensagemError?.let {
                     Toast.makeText(context, mensagemError.error[0], Toast.LENGTH_SHORT).show()
                 }
-                return null
             }
         } catch (e: Exception) {
             Toast.makeText(context, "Error ao tentar se conectar", Toast.LENGTH_SHORT).show()
         }
+
         return null
     }
 

@@ -18,7 +18,7 @@ interface ApiClient {
     @GET("pet/todos_meus_pets/{idUser}")
     suspend fun getAllMyPets(
         @Header("Authorization") token: String,
-        @Path("idUser") idUser: String
+        @Path("idUser", encoded = false) idUser: String
     ): Response<Pets>
 
     @GET("pet/dados_pet/{idPet}")

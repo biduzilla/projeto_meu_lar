@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         val user: LoginUser? = userRepository.login(login, baseContext)
 
         user?.let {
-            SharedPref(this).salvarToken(user.token)
+            SharedPref(this).salvarToken("Bearer " + user.token)
             SharedPref(this).salvarIdUser(user.idUser)
             SharedPref(this).salvarNomeUser(user.nome)
 
