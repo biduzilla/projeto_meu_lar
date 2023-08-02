@@ -1,6 +1,7 @@
 package br.ricky.projeto_meu_lar.ui.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -12,7 +13,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.ricky.projeto_meu_lar.CHAVE_ID_PET
@@ -79,6 +84,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun ocultarTeclado() {
+        val imm = ContextCompat.getSystemService(requireView().context, InputMethodManager::class.java)
+        imm?.hideSoftInputFromWindow(requireView().windowToken, 0)
+    }
+
 
     private fun configClicks() {
         with(binding) {
@@ -89,18 +99,22 @@ class HomeFragment : Fragment() {
             }
 
             cardPequeno.setOnClickListener {
+                ocultarTeclado()
                 changeCardPequenoColor()
             }
 
             cardMedio.setOnClickListener {
+                ocultarTeclado()
                 changeCardMedioColor()
             }
 
             cardGrande.setOnClickListener {
+                ocultarTeclado()
                 changeCardGrandeColor()
             }
 
             cardMeusPets.setOnClickListener {
+                ocultarTeclado()
                 changeCardMeusPetsColor()
             }
 
