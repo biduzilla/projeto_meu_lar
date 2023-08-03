@@ -9,6 +9,7 @@ import br.ricky.projeto_meu_lar.CHAVE_ID_PET
 import br.ricky.projeto_meu_lar.CHAVE_MEU_PET
 import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.ActivityDetalhesPetBinding
+import br.ricky.projeto_meu_lar.extensions.iniciaActivity
 import br.ricky.projeto_meu_lar.model.Pet
 import br.ricky.projeto_meu_lar.repository.PetRepository
 import br.ricky.projeto_meu_lar.utils.base64ToBitmap
@@ -34,6 +35,7 @@ class DetalhesPetActivity : AppCompatActivity() {
     private fun configClicks() {
         with(binding) {
             toolbar.btnVoltar.setOnClickListener { finish() }
+            toolbar.btnEditar.setOnClickListener { iniciaActivity(FormPetActivity::class.java) }
         }
     }
 
@@ -55,7 +57,7 @@ class DetalhesPetActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             petId?.let {
-                PetRepository().getPetById(baseContext, idPet = it, token = token)?.let { pet ->
+                PetRepository().getPetById(activity = this@DetalhesPetActivity, idPet = it, token = token)?.let { pet ->
                     petRecuperado = pet
 
                     carregaDados()

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -50,6 +51,8 @@ class FormPetActivity : AppCompatActivity() {
     private val isAdocao: Boolean = false
     private var tamanho: Int? = null
     private var status: Int? = null
+    private val laranja: Int = Color.parseColor("#f8a300")
+    private val cinzaClaro: Int = Color.parseColor("#CAC4C4")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,10 +68,22 @@ class FormPetActivity : AppCompatActivity() {
             btnCadastrar.setOnClickListener { validaDados() }
             cardImg.setOnClickListener { showBottonSheet() }
 
-            cbEncontrado.isChecked.apply {
-                if (this) {
+            cbEncontrado.setOnClickListener {
+                cbPerdido.setTextColor(cinzaClaro)
+
+                if (cbEncontrado.isChecked){
                     cbPerdido.isChecked = false
                     status = 1
+                    cbEncontrado.setTextColor(laranja)
+                }
+            }
+
+            cbPerdido.setOnClickListener {
+                cbEncontrado.setTextColor(cinzaClaro)
+                if (cbPerdido.isChecked){
+                    cbEncontrado.isChecked = false
+                    status = 1
+                    cbPerdido.setTextColor(laranja)
                 }
             }
 
@@ -79,29 +94,37 @@ class FormPetActivity : AppCompatActivity() {
                 }
             }
 
-            cbPequeno.isChecked.apply {
-                if (this) {
+            cbPequeno.setOnClickListener{
+                if (cbPequeno.isChecked) {
                     cbMedio.isChecked = false
                     cbGrande.isChecked = false
                     tamanho = 1
+                    cbPequeno.setTextColor(laranja)
                 }
+                cbMedio.setTextColor(cinzaClaro)
+                cbGrande.setTextColor(cinzaClaro)
             }
 
-            cbMedio.isChecked.apply {
-                if (this) {
+            cbMedio.setOnClickListener{
+                if (cbMedio.isChecked) {
                     cbPequeno.isChecked = false
                     cbGrande.isChecked = false
                     tamanho = 2
+                    cbMedio.setTextColor(laranja)
                 }
+                cbPequeno.setTextColor(cinzaClaro)
+                cbGrande.setTextColor(cinzaClaro)
             }
 
-            cbGrande.isChecked.apply {
-                if (this) {
+            cbGrande.setOnClickListener{
+                if (cbGrande.isChecked) {
                     cbPequeno.isChecked = false
                     cbMedio.isChecked = false
-                    tamanho = 3
+                    tamanho = 2
+                    cbGrande.setTextColor(laranja)
                 }
-                tamanho = null
+                cbPequeno.setTextColor(cinzaClaro)
+                cbMedio.setTextColor(cinzaClaro)
             }
             verificaCb(this)
         }

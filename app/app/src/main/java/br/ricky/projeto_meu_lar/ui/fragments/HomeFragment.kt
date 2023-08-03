@@ -30,6 +30,7 @@ import br.ricky.projeto_meu_lar.model.LoginUser
 import br.ricky.projeto_meu_lar.model.Pet
 import br.ricky.projeto_meu_lar.repository.PetRepository
 import br.ricky.projeto_meu_lar.ui.activity.DetalhesPetActivity
+import br.ricky.projeto_meu_lar.ui.activity.FormPetActivity
 import br.ricky.projeto_meu_lar.ui.activity.auth.LoginActivity
 import br.ricky.projeto_meu_lar.ui.adapter.PetAdapter
 import kotlinx.coroutines.launch
@@ -97,6 +98,8 @@ class HomeFragment : Fragment() {
                 requireActivity().iniciaActivity(LoginActivity::class.java)
                 requireActivity().finish()
             }
+
+            btnAdd.setOnClickListener { requireActivity().iniciaActivity(FormPetActivity::class.java) }
 
             cardPequeno.setOnClickListener {
                 ocultarTeclado()
@@ -263,7 +266,7 @@ class HomeFragment : Fragment() {
         loginUser?.token?.let { token ->
 
             lifecycleScope.launch {
-                PetRepository().getAllPetsAdotar(requireContext(), token)?.let { petsList ->
+                PetRepository().getAllPetsAdotar(requireActivity(), token)?.let { petsList ->
                     petsRecuperados = petsList.toMutableList()
                     adapter.atualiza(petsList)
 
@@ -276,7 +279,7 @@ class HomeFragment : Fragment() {
 
             lifecycleScope.launch {
                 PetRepository().getAllMyPets(
-                    requireContext(),
+                    requireActivity(),
                     idUser = loginUser!!.idUser,
                     token = token
                 )

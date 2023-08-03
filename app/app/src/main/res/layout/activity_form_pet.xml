@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.activity.FormPetActivity">
 
     <include
@@ -33,6 +34,7 @@
                 android:layout_marginTop="42dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="10dp"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -47,6 +49,7 @@
 
                 <ImageView
                     android:id="@+id/img_pet"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
@@ -132,6 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Pequeno"
+                        app:background="@color/laranja"
                         android:textColor="@color/on_focused"
                         android:textSize="18sp" />
 
