@@ -20,9 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.ricky.projeto_meu_lar.CHAVE_ID_PET
-import br.ricky.projeto_meu_lar.CHAVE_MEU_PET
-import br.ricky.projeto_meu_lar.R
+import br.ricky.projeto_meu_lar.*
 import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.FragmentHomeBinding
 import br.ricky.projeto_meu_lar.extensions.iniciaActivity
@@ -99,7 +97,13 @@ class HomeFragment : Fragment() {
                 requireActivity().finish()
             }
 
-            btnAdd.setOnClickListener { requireActivity().iniciaActivity(FormPetActivity::class.java) }
+            btnAdd.setOnClickListener {
+                Intent(requireContext(),FormPetActivity::class.java).apply {
+                    putExtra(IS_UPDATE, false)
+                    putExtra(IS_ADOCAO, true)
+                    startActivity(this)
+                }
+            }
 
             cardPequeno.setOnClickListener {
                 ocultarTeclado()

@@ -14,6 +14,8 @@
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/bg_arredondado.xml" value="0.1359375" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/bg_circulo.xml" value="0.1359375" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/bg_edt_arredondada.xml" value="0.1359375" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/borda_arredondada_cima.xml" value="0.15729166666666666" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/borda_arredondada_cima_laranja.xml" value="0.15729166666666666" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/borda_arredondada_edt.xml" value="0.1359375" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/borda_arredondada_laranja.xml" value="0.15833333333333333" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/drawable/btn_circulo_background.xml" value="0.15885416666666666" />
@@ -36,7 +38,7 @@
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_perdido_encontrado.xml" value="0.10572916666666667" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/item_pet.xml" value="0.33" />
-        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/toolbar_sair.xml" value="0.11865942028985507" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/toolbar_sair.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/toolbar_sair_menu.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/menu/menu_pet.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/xml/backup_rules.xml" value="0.1390625" />

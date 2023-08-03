@@ -22,9 +22,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
 import androidx.core.content.FileProvider
-import br.ricky.projeto_meu_lar.ABRIR_CAMERA
-import br.ricky.projeto_meu_lar.ABRIR_GALERIA
-import br.ricky.projeto_meu_lar.R
+import br.ricky.projeto_meu_lar.*
 import br.ricky.projeto_meu_lar.databinding.ActivityFormPetBinding
 import br.ricky.projeto_meu_lar.databinding.BottomSheetFormPetBinding
 import br.ricky.projeto_meu_lar.model.Pet
@@ -44,11 +42,11 @@ class FormPetActivity : AppCompatActivity() {
     }
     private lateinit var currentPhotoPath: String
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-    private var isUpdate: Boolean = false
     private var resultCode: String = ""
     private var caminhoImagem: String? = null
     private var imagemEscolhida: String? = null
-    private val isAdocao: Boolean = false
+    private var isAdocao: Boolean = false
+    private var isUpdate: Boolean = false
     private var tamanho: Int? = null
     private var status: Int? = null
     private val laranja: Int = Color.parseColor("#f8a300")
@@ -60,6 +58,34 @@ class FormPetActivity : AppCompatActivity() {
         setContentView(binding.root)
         startResult()
         configClicks()
+        verificaAdocaoAndUpdate()
+    }
+
+    private fun verificaAdocaoAndUpdate() {
+        isUpdate = intent.getBooleanExtra(IS_UPDATE,false)
+        isAdocao = intent.getBooleanExtra(IS_ADOCAO,false)
+
+        with(binding) {
+            if (isUpdate) {
+                toolbar.tvTitulo.text = "Atualizar dados do pet"
+                btnCadastrar.text = "Atualizar"
+            }else{
+                toolbar.tvTitulo.text = "Cadastrar dados do pet"
+                btnCadastrar.text = "Cadastrar"
+            }
+
+            if(isAdocao){
+                llStatus.visibility = View.GONE
+            }else{
+                llStatus.visibility = View.VISIBLE
+            }
+
+            Toast.makeText(
+                baseContext,
+                isAdocao.toString(),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun configClicks() {
@@ -263,8 +289,8 @@ class FormPetActivity : AppCompatActivity() {
                 binding.edtNome.error = "Campo obrigatório"
             }
             desc.isEmpty() -> {
-                binding.edtNome.requestFocus()
-                binding.edtNome.error = "Campo obrigatório"
+                binding.edtDesc.requestFocus()
+                binding.edtDesc.error = "Campo obrigatório"
             }
             imagemEscolhida == null -> {
                 Toast.makeText(
@@ -324,7 +350,6 @@ class FormPetActivity : AppCompatActivity() {
                 salvarPet(pet)
             }
         }
-
     }
 
     private fun salvarPet(pet: Pet) {
