@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Projeto_meu_lar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.activity.FormPetActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.DetalhesPetActivity"
             android:exported="true" />
         <activity

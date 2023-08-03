@@ -58,8 +58,8 @@ class HomeFragment : Fragment() {
 
         configClicks()
         carregaDadosPref()
-        recuperaPets()
         configRv()
+        recuperaPets()
 
         return binding.root
     }
