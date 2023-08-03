@@ -211,7 +211,7 @@ class FormPetActivity : AppCompatActivity() {
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
                         this,
-                        "com.toddy.vagasifb.fileprovider",
+                        "br.ricky.projeto_meu_lar.fileprovider",
                         it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
