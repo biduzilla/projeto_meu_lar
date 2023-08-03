@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import br.ricky.projeto_meu_lar.model.ErrorMensagem
 import br.ricky.projeto_meu_lar.model.Pet
+import br.ricky.projeto_meu_lar.model.PetSalvar
 import br.ricky.projeto_meu_lar.model.Pets
 import br.ricky.projeto_meu_lar.network.RetrofitInstance
 import br.ricky.projeto_meu_lar.utils.dialogLogarNovamente
@@ -90,7 +91,7 @@ class PetRepository {
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(activity.baseContext, "Error ao tentar se conectar", Toast.LENGTH_SHORT)
+            Toast.makeText(activity.baseContext, "Error ao tentar conectar", Toast.LENGTH_SHORT)
                 .show()
         }
         return null
@@ -125,9 +126,49 @@ class PetRepository {
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(activity.baseContext, "Error ao tentar se conectar", Toast.LENGTH_SHORT)
+            Toast.makeText(activity.baseContext, "Error ao tentar conectar", Toast.LENGTH_SHORT)
                 .show()
         }
         return null
+    }
+
+    suspend fun salvarPet(
+        activity: Activity,
+        pet: PetSalvar,
+        token: String,
+        idUser: String
+    ): Boolean {
+        try {
+            val response =
+                RetrofitInstance.api.cadastrarPet(token = token, idUser = idUser, pet = pet)
+
+            if (!response.isSuccessful) {
+                if (response.code() == 403) {
+                    dialogLogarNovamente(activity)
+                } else {
+                    val mensagemError = Gson().fromJson(
+                        response
+                            .errorBody()
+                            ?.charStream(),
+                        ErrorMensagem::class.java
+                    )
+
+                    mensagemError?.let {
+                        Toast.makeText(
+                            activity.baseContext,
+                            mensagemError.error[0],
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                return false
+            } else {
+                return true
+            }
+        } catch (e: Exception) {
+            Toast.makeText(activity.baseContext, "Error ao tentar conectar", Toast.LENGTH_SHORT)
+                .show()
+        }
+        return false
     }
 }

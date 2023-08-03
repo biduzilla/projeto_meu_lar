@@ -22,15 +22,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import br.ricky.projeto_meu_lar.*
+import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.ActivityFormPetBinding
 import br.ricky.projeto_meu_lar.databinding.BottomSheetFormPetBinding
 import br.ricky.projeto_meu_lar.model.Pet
+import br.ricky.projeto_meu_lar.model.PetSalvar
+import br.ricky.projeto_meu_lar.repository.PetRepository
 import br.ricky.projeto_meu_lar.utils.bitmapToBase64
 import br.ricky.projeto_meu_lar.utils.uriToBitmap
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -39,6 +44,10 @@ import java.util.*
 class FormPetActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityFormPetBinding.inflate(layoutInflater)
+    }
+
+    private val petRepository by lazy {
+        PetRepository()
     }
     private lateinit var currentPhotoPath: String
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -62,29 +71,23 @@ class FormPetActivity : AppCompatActivity() {
     }
 
     private fun verificaAdocaoAndUpdate() {
-        isUpdate = intent.getBooleanExtra(IS_UPDATE,false)
-        isAdocao = intent.getBooleanExtra(IS_ADOCAO,false)
+        isUpdate = intent.getBooleanExtra(IS_UPDATE, false)
+        isAdocao = intent.getBooleanExtra(IS_ADOCAO, false)
 
         with(binding) {
             if (isUpdate) {
                 toolbar.tvTitulo.text = "Atualizar dados do pet"
                 btnCadastrar.text = "Atualizar"
-            }else{
+            } else {
                 toolbar.tvTitulo.text = "Cadastrar dados do pet"
                 btnCadastrar.text = "Cadastrar"
             }
 
-            if(isAdocao){
+            if (isAdocao) {
                 llStatus.visibility = View.GONE
-            }else{
+            } else {
                 llStatus.visibility = View.VISIBLE
             }
-
-            Toast.makeText(
-                baseContext,
-                isAdocao.toString(),
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 
@@ -97,7 +100,7 @@ class FormPetActivity : AppCompatActivity() {
             cbEncontrado.setOnClickListener {
                 cbPerdido.setTextColor(cinzaClaro)
 
-                if (cbEncontrado.isChecked){
+                if (cbEncontrado.isChecked) {
                     cbPerdido.isChecked = false
                     status = 1
                     cbEncontrado.setTextColor(laranja)
@@ -106,7 +109,7 @@ class FormPetActivity : AppCompatActivity() {
 
             cbPerdido.setOnClickListener {
                 cbEncontrado.setTextColor(cinzaClaro)
-                if (cbPerdido.isChecked){
+                if (cbPerdido.isChecked) {
                     cbEncontrado.isChecked = false
                     status = 1
                     cbPerdido.setTextColor(laranja)
@@ -120,7 +123,7 @@ class FormPetActivity : AppCompatActivity() {
                 }
             }
 
-            cbPequeno.setOnClickListener{
+            cbPequeno.setOnClickListener {
                 if (cbPequeno.isChecked) {
                     cbMedio.isChecked = false
                     cbGrande.isChecked = false
@@ -131,7 +134,7 @@ class FormPetActivity : AppCompatActivity() {
                 cbGrande.setTextColor(cinzaClaro)
             }
 
-            cbMedio.setOnClickListener{
+            cbMedio.setOnClickListener {
                 if (cbMedio.isChecked) {
                     cbPequeno.isChecked = false
                     cbGrande.isChecked = false
@@ -142,7 +145,7 @@ class FormPetActivity : AppCompatActivity() {
                 cbGrande.setTextColor(cinzaClaro)
             }
 
-            cbGrande.setOnClickListener{
+            cbGrande.setOnClickListener {
                 if (cbGrande.isChecked) {
                     cbPequeno.isChecked = false
                     cbMedio.isChecked = false
@@ -299,34 +302,35 @@ class FormPetActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            isAdocao -> {
-                if (tamanho == null) {
-                    Toast.makeText(
-                        this,
-                        "Escolha o tamanho do pet",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            !isAdocao -> {
-                if (tamanho == null) {
-                    Toast.makeText(
-                        this,
-                        "Escolha o tamanho do pet",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                if (status == null) {
-                    Toast.makeText(
-                        this,
-                        "Escolha o status do pet",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
             else -> {
+                if (isAdocao){
+                    if (tamanho == null) {
+                        Toast.makeText(
+                            this,
+                            "Escolha o tamanho do pet",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }else{
+                    if (tamanho == null) {
+                        Toast.makeText(
+                            this,
+                            "Escolha o tamanho do pet",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    if (status == null) {
+                        Toast.makeText(
+                            this,
+                            "Escolha o status do pet",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
                 binding.btnCadastrar.visibility = View.GONE
                 binding.progressCircular.visibility = View.VISIBLE
+
                 val tam = when (tamanho) {
                     1 -> "PEQUENO"
                     2 -> "MEDIO"
@@ -340,25 +344,46 @@ class FormPetActivity : AppCompatActivity() {
                     else -> "ERROR"
                 }
 
-                val pet = Pet(
-                    nomePet = nome,
+                val pet = PetSalvar(
+                    nome = nome,
                     descricao = desc,
                     imagem = imagemEscolhida!!,
                     tamanho = tam,
                     status = sta
                 )
                 salvarPet(pet)
+                Log.i("infoteste", "validaDados: $pet")
             }
         }
     }
 
-    private fun salvarPet(pet: Pet) {
-        binding.btnCadastrar.visibility = View.VISIBLE
-        binding.progressCircular.visibility = View.GONE
-        Log.i("infoteste", "salvarPet nome: ${pet.nomePet}")
-        Log.i("infoteste", "salvarPet desc: ${pet.descricao}")
-        Log.i("infoteste", "salvarPet status: ${pet.status}")
-        Log.i("infoteste", "salvarPet tamanho: ${pet.tamanho}")
+    private fun salvarPet(pet: PetSalvar) {
+
+        val token = SharedPref(this@FormPetActivity).getToken()
+        val idUser = SharedPref(this@FormPetActivity).getIdUSer()
+        lifecycleScope.launch {
+            petRepository.salvarPet(
+                this@FormPetActivity,
+                pet = pet,
+                token = token!!,
+                idUser = idUser!!
+            ).apply {
+                if (this) {
+                    Toast.makeText(
+                        this@FormPetActivity,
+                        "Error ao cadastrar o pet",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    binding.btnCadastrar.visibility = View.VISIBLE
+                    binding.progressCircular.visibility = View.GONE
+
+                } else {
+                    finish()
+                }
+            }
+        }
+
     }
 
     private fun startResult() {

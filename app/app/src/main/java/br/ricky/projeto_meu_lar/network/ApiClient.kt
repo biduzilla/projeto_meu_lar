@@ -26,4 +26,11 @@ interface ApiClient {
         @Header("Authorization") token: String,
         @Path("idPet") idPet: String
     ): Response<Pet>
+
+    @POST("pet/cadastrar_pet/{idUser}")
+    suspend fun cadastrarPet(
+        @Header("Authorization") token: String,
+        @Path("idUser") idUser: String,
+        @Body pet: PetSalvar
+    ): Response<Void>
 }
