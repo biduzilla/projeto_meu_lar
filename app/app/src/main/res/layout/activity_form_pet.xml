@@ -107,8 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawablePadding="8dp"
-                        android:inputType="textEmailAddress"
-                        android:paddingBottom="48dp"
+                        android:inputType="textMultiLine"
                         android:textColor="@color/on_select"
                         android:textSize="20sp"
                         app:drawableTint="@color/on_select" />
