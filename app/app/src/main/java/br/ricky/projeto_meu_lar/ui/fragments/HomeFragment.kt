@@ -74,8 +74,8 @@ class HomeFragment : Fragment() {
                 progressCircular.visibility = View.VISIBLE
                 rv.visibility = View.GONE
             }
-            recuperaPets()
         }
+        recuperaPets()
 
         with(binding) {
             progressCircular.visibility = View.GONE
