@@ -43,7 +43,11 @@ class SharedPref(activity: Activity) {
         return sharedPreferences.getString(CHAVE_TOKEN, "")
     }
 
-    fun getIdUSer(): String? {
+    fun getIdUser(): String? {
         return sharedPreferences.getString(CHAVE_ID_USER, "")
     }
+    fun getNomeUser(): String? {
+        return sharedPreferences.getString(CHAVE_NOME_USER, "")
+    }
+
 }

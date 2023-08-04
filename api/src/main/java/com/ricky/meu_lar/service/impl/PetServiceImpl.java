@@ -34,7 +34,7 @@ public class PetServiceImpl implements PetService {
         Usuario usuario = usuarioRepository.findById(idUser).orElseThrow(UsuarioNaoEncontrado::new);
 
         Pet pet = Pet.builder()
-                .id(UUID.randomUUID().toString())
+                .id(petDto.getId())
                 .usuario(usuario)
                 .nome(petDto.getNome())
                 .descricao(petDto.getDescricao())

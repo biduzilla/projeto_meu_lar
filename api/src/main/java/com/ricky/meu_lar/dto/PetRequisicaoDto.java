@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 @ToString
 @Builder
 public class PetRequisicaoDto {
+    @NotEmpty(message = "{campo.id.obrigatorio}")
+    private String id;
     @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String nome;
     @NotEmpty(message = "{campo.descricao.obrigatorio}")

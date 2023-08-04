@@ -4,12 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -17,21 +15,18 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import br.ricky.projeto_meu_lar.*
 import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.ActivityFormPetBinding
 import br.ricky.projeto_meu_lar.databinding.BottomSheetFormPetBinding
-import br.ricky.projeto_meu_lar.model.Pet
 import br.ricky.projeto_meu_lar.model.PetSalvar
+import br.ricky.projeto_meu_lar.network.FirebaseDao
 import br.ricky.projeto_meu_lar.repository.PetRepository
-import br.ricky.projeto_meu_lar.utils.bitmapToBase64
-import br.ricky.projeto_meu_lar.utils.uriToBitmap
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
@@ -149,7 +144,7 @@ class FormPetActivity : AppCompatActivity() {
                 if (cbGrande.isChecked) {
                     cbPequeno.isChecked = false
                     cbMedio.isChecked = false
-                    tamanho = 2
+                    tamanho = 3
                     cbGrande.setTextColor(laranja)
                 }
                 cbPequeno.setTextColor(cinzaClaro)
@@ -295,7 +290,7 @@ class FormPetActivity : AppCompatActivity() {
                 binding.edtDesc.requestFocus()
                 binding.edtDesc.error = "Campo obrigatório"
             }
-            imagemEscolhida == null -> {
+            caminhoImagem == null -> {
                 Toast.makeText(
                     this,
                     "Escolha uma imagem para o pet",
@@ -303,7 +298,7 @@ class FormPetActivity : AppCompatActivity() {
                 ).show()
             }
             else -> {
-                if (isAdocao){
+                if (isAdocao) {
                     if (tamanho == null) {
                         Toast.makeText(
                             this,
@@ -311,7 +306,7 @@ class FormPetActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }else{
+                } else {
                     if (tamanho == null) {
                         Toast.makeText(
                             this,
@@ -345,22 +340,22 @@ class FormPetActivity : AppCompatActivity() {
                 }
 
                 val pet = PetSalvar(
+                    id = UUID.randomUUID().toString(),
                     nome = nome,
                     descricao = desc,
-                    imagem = imagemEscolhida!!,
                     tamanho = tam,
                     status = sta
                 )
-                salvarPet(pet)
-                Log.i("infoteste", "validaDados: $pet")
+                salvarImagemFirebase(pet)
             }
         }
     }
 
-    private fun salvarPet(pet: PetSalvar) {
 
+    private fun salvarPet(pet: PetSalvar) {
         val token = SharedPref(this@FormPetActivity).getToken()
-        val idUser = SharedPref(this@FormPetActivity).getIdUSer()
+        val idUser = SharedPref(this@FormPetActivity).getIdUser()
+
         lifecycleScope.launch {
             petRepository.salvarPet(
                 this@FormPetActivity,
@@ -369,6 +364,8 @@ class FormPetActivity : AppCompatActivity() {
                 idUser = idUser!!
             ).apply {
                 if (this) {
+                    finish()
+                } else {
                     Toast.makeText(
                         this@FormPetActivity,
                         "Error ao cadastrar o pet",
@@ -377,13 +374,26 @@ class FormPetActivity : AppCompatActivity() {
 
                     binding.btnCadastrar.visibility = View.VISIBLE
                     binding.progressCircular.visibility = View.GONE
-
-                } else {
-                    finish()
                 }
             }
         }
 
+    }
+
+    private fun salvarImagemFirebase(pet: PetSalvar) {
+
+        caminhoImagem?.let {
+            FirebaseDao().salvarImagemPetFirebase(
+                imagem = it,
+                activity = this,
+                petId = pet.id
+            ) { url ->
+                url?.let { urlRecuperada ->
+                    pet.imagem = urlRecuperada
+                    salvarPet(pet)
+                }
+            }
+        }
     }
 
     private fun startResult() {
@@ -398,12 +408,10 @@ class FormPetActivity : AppCompatActivity() {
                             binding.imgPet.visibility = View.VISIBLE
                             caminhoImagem = file.toURI().toString()
 
-                            val bitmap: Bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                            imagemEscolhida = bitmapToBase64(bitmap)
                         }
                         ABRIR_GALERIA -> {
-                            val imagemSelecionada: Uri = it.data!!.data!!
 
+                            val imagemSelecionada: Uri = it.data!!.data!!
                             caminhoImagem = imagemSelecionada.toString()
 
                             val bitmap: Bitmap = if (Build.VERSION.SDK_INT < 28) {
@@ -423,16 +431,6 @@ class FormPetActivity : AppCompatActivity() {
                             binding.imgPet.setImageBitmap(bitmap)
                             binding.imgPet.visibility = View.VISIBLE
 
-                            val bitmapImg: Bitmap? = uriToBitmap(this, imagemSelecionada)
-                            bitmapImg?.let { img ->
-                                imagemEscolhida = bitmapToBase64(img)
-                            } ?: kotlin.run {
-                                Toast.makeText(
-                                    this,
-                                    "Error carregar imagem galeria",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
                         }
                         else -> Toast.makeText(
                             this,

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import br.ricky.projeto_meu_lar.databinding.ItemPetBinding
+import br.ricky.projeto_meu_lar.extensions.tentaCarregarImagem
 import br.ricky.projeto_meu_lar.model.Pet
 import br.ricky.projeto_meu_lar.utils.base64ToBitmap
 
@@ -33,12 +34,12 @@ class PetAdapter(
             with(binding) {
                 tvNomePet.text = pet.nomePet
                 tvDesc.text = pet.descricao
-                if (pet.status == "ADOTAR") {
-                    tvStatus.text = "Adoção"
-                } else {
-                    "Error"
+                when (pet.status) {
+                    "ADOTAR" -> tvStatus.text = "Adoção"
+                    "ENCONTRADO" -> tvStatus.text = "Encontrado"
+                    "PERDIDO" -> tvStatus.text = "Perdido"
                 }
-                imgPet.base64ToBitmap(pet.imagem)
+                imgPet.tentaCarregarImagem(pet.imagem)
             }
         }
     }
