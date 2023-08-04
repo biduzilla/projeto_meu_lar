@@ -91,11 +91,13 @@ class CadastrarContaActivity : AppCompatActivity() {
         lifecycleScope.launch {
             if (userRepository.criarConta(user, baseContext)) {
                 finish()
+            }else{
+                with(binding) {
+                    progressCircular.visibility = View.GONE
+                    btnCadastrar.visibility = View.VISIBLE
+                }
             }
         }
-        with(binding) {
-            progressCircular.visibility = View.GONE
-            btnCadastrar.visibility = View.VISIBLE
-        }
+
     }
 }

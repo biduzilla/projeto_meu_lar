@@ -109,24 +109,28 @@ class HomeFragment : Fragment() {
             cardPequeno.setOnClickListener {
                 ocultarTeclado()
                 edtSearch.clearFocus()
+                adapter.atualiza(emptyList())
                 changeCardPequenoColor()
             }
 
             cardMedio.setOnClickListener {
                 ocultarTeclado()
                 edtSearch.clearFocus()
+                adapter.atualiza(emptyList())
                 changeCardMedioColor()
             }
 
             cardGrande.setOnClickListener {
                 ocultarTeclado()
                 edtSearch.clearFocus()
+                adapter.atualiza(emptyList())
                 changeCardGrandeColor()
             }
 
             cardMeusPets.setOnClickListener {
                 ocultarTeclado()
                 edtSearch.clearFocus()
+                adapter.atualiza(emptyList())
                 changeCardMeusPetsColor()
             }
 

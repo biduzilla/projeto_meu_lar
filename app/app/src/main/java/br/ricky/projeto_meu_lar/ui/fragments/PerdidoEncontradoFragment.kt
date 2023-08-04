@@ -3,6 +3,7 @@ package br.ricky.projeto_meu_lar.ui.fragments
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,8 @@ class PerdidoEncontradoFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        meusPetsRecuperados.clear()
+        petsRecuperados.clear()
         recuperaPets()
     }
 
@@ -119,14 +122,17 @@ class PerdidoEncontradoFragment : Fragment() {
                 }
             }
             cardPerdido.setOnClickListener {
+                adapter.atualiza(emptyList())
                 changeCardPerdidoColor()
             }
 
             cardEncontrado.setOnClickListener {
+                adapter.atualiza(emptyList())
                 changeCardEncontradoColor()
             }
 
             cardMeuPet.setOnClickListener {
+                adapter.atualiza(emptyList())
                 changeCardMeuPetColor()
             }
         }
@@ -154,6 +160,7 @@ class PerdidoEncontradoFragment : Fragment() {
             isEncontrado = false
             isMyPet = true
 
+
             adapter.atualiza(meusPetsRecuperados)
         }
     }
@@ -180,6 +187,7 @@ class PerdidoEncontradoFragment : Fragment() {
             isEncontrado = true
             isMyPet = false
 
+
             filtrarStatusPet(2)
         }
     }
@@ -205,6 +213,7 @@ class PerdidoEncontradoFragment : Fragment() {
             isPerdido = true
             isEncontrado = false
             isMyPet = false
+
 
             filtrarStatusPet(1)
         }
