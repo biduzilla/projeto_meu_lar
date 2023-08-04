@@ -84,7 +84,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun ocultarTeclado() {
-        val imm = ContextCompat.getSystemService(requireView().context, InputMethodManager::class.java)
+        val imm =
+            ContextCompat.getSystemService(requireView().context, InputMethodManager::class.java)
         imm?.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
@@ -98,7 +99,7 @@ class HomeFragment : Fragment() {
             }
 
             btnAdd.setOnClickListener {
-                Intent(requireContext(),FormPetActivity::class.java).apply {
+                Intent(requireContext(), FormPetActivity::class.java).apply {
                     putExtra(IS_UPDATE, false)
                     putExtra(IS_ADOCAO, true)
                     startActivity(this)
@@ -288,7 +289,11 @@ class HomeFragment : Fragment() {
                     token = token
                 )
                     ?.let { petsList ->
-                        meusPetsRecuperados = petsList.toMutableList()
+                        petsList.forEach {
+                            if (it.status == "ADOTAR") {
+                                meusPetsRecuperados.add(it)
+                            }
+                        }
                     }
             }
         }
@@ -351,6 +356,4 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
 }

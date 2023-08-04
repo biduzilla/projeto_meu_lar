@@ -15,6 +15,9 @@ interface ApiClient {
     @GET("pet/todos_pets_adotar")
     suspend fun getAllPetsAdotar(@Header("Authorization") token: String): Response<Pets>
 
+    @GET("pet/todos_pets_perdidos_encontrados")
+    suspend fun getAllPetsPerdidoEncontrado(@Header("Authorization") token: String): Response<Pets>
+
     @GET("pet/todos_meus_pets/{idUser}")
     suspend fun getAllMyPets(
         @Header("Authorization") token: String,

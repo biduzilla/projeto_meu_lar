@@ -171,4 +171,40 @@ class PetRepository {
         }
         return false
     }
+
+    suspend fun getAllPetsPerdidoEncontrado(activity: Activity, token: String): List<Pet>? {
+        try {
+            val response: Response<Pets> =
+                RetrofitInstance.api.getAllPetsPerdidoEncontrado(token = token)
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return it.pets
+                }
+            } else {
+                if (response.code() == 403) {
+                    dialogLogarNovamente(activity)
+                } else {
+                    val mensagemError = Gson().fromJson(
+                        response
+                            .errorBody()
+                            ?.charStream(),
+                        ErrorMensagem::class.java
+                    )
+
+                    mensagemError?.let {
+                        Toast.makeText(
+                            activity.baseContext,
+                            mensagemError.error[0],
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Toast.makeText(activity.baseContext, "Error ao tentar conectar", Toast.LENGTH_SHORT)
+                .show()
+        }
+        return null
+    }
 }
