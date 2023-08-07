@@ -26,6 +26,7 @@ import br.ricky.projeto_meu_lar.databinding.BottomSheetFormPetBinding
 import br.ricky.projeto_meu_lar.extensions.tentaCarregarImagem
 import br.ricky.projeto_meu_lar.model.Pet
 import br.ricky.projeto_meu_lar.model.PetSalvar
+import br.ricky.projeto_meu_lar.model.PetUpdate
 import br.ricky.projeto_meu_lar.network.FirebaseDao
 import br.ricky.projeto_meu_lar.repository.PetRepository
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -113,6 +114,7 @@ class FormPetActivity : AppCompatActivity() {
                     idPet = it,
                     token = token
                 )?.let { pet ->
+                    petRecuperado = pet
                     carregaDados(pet)
                 }
 
@@ -153,21 +155,21 @@ class FormPetActivity : AppCompatActivity() {
 
             when (pet.tamanho) {
                 "PEQUENO" -> {
-                    status = 1
+                    tamanho = 1
                     cbPequeno.isChecked = true
                     cbMedio.setTextColor(cinzaClaro)
                     cbGrande.setTextColor(cinzaClaro)
                     cbPequeno.setTextColor(laranja)
                 }
                 "MEDIO" -> {
-                    status = 2
+                    tamanho = 2
                     cbMedio.isChecked = true
                     cbMedio.setTextColor(laranja)
                     cbGrande.setTextColor(cinzaClaro)
                     cbPequeno.setTextColor(cinzaClaro)
                 }
                 "GRANDE" -> {
-                    status = 3
+                    tamanho = 3
                     cbGrande.isChecked = true
                     cbMedio.setTextColor(cinzaClaro)
                     cbGrande.setTextColor(laranja)
@@ -396,7 +398,7 @@ class FormPetActivity : AppCompatActivity() {
                 binding.edtDesc.requestFocus()
                 binding.edtDesc.error = "Campo obrigatório"
             }
-            caminhoImagem == null -> {
+            caminhoImagem == null && !isUpdate -> {
                 Toast.makeText(
                     this,
                     "Escolha uma imagem para o pet",
@@ -457,13 +459,49 @@ class FormPetActivity : AppCompatActivity() {
                     tamanho = tam,
                     status = sta
                 )
-                caminhoImagem?.let {
-                    pet.imagem = petRecuperado.imagem
-                    salvarPet(pet)
-                } ?: run {
-                    salvarImagemFirebase(pet)
+                if (isUpdate) {
+                    if (caminhoImagem == null) {
+                        pet.imagem = petRecuperado.imagem
+                        atualizarPet(pet)
+                    } else {
+                        salvarImagemFirebase(pet) { urlGerada ->
+                            pet.imagem = urlGerada
+                            atualizarPet(pet)
+                        }
+                    }
+                } else {
+                    salvarImagemFirebase(pet) { urlGerada ->
+                        pet.imagem = urlGerada
+                        salvarPet(pet)
+                    }
                 }
+            }
+        }
+    }
 
+    private fun atualizarPet(pet: PetSalvar) {
+        val petUpdate = PetUpdate(
+            nome = pet.nome,
+            descricao = pet.descricao,
+            status = pet.status,
+            imagem = pet.imagem,
+            tamanho = pet.tamanho
+        )
+        val idUser = SharedPref(this).getIdUser()
+        lifecycleScope.launch {
+            petRepository.atualizarPost(
+                activity = this@FormPetActivity,
+                token = token,
+                idUser = idUser!!,
+                idPet = pet.id,
+                pet = petUpdate
+            ).apply {
+                if (this) {
+                    finish()
+                }else{
+                    binding.btnCadastrar.visibility = View.VISIBLE
+                    binding.progressCircular.visibility = View.GONE
+                }
             }
         }
     }
@@ -495,8 +533,7 @@ class FormPetActivity : AppCompatActivity() {
         }
     }
 
-    private fun salvarImagemFirebase(pet: PetSalvar) {
-
+    private fun salvarImagemFirebase(pet: PetSalvar, urlGerada: (url: String) -> Unit) {
         caminhoImagem?.let {
             FirebaseDao().salvarImagemPetFirebase(
                 imagem = it,
@@ -504,8 +541,7 @@ class FormPetActivity : AppCompatActivity() {
                 petId = pet.id
             ) { url ->
                 url?.let { urlRecuperada ->
-                    pet.imagem = urlRecuperada
-                    salvarPet(pet)
+                    urlGerada(urlRecuperada)
                 }
             }
         }

@@ -45,6 +45,11 @@ class DetalhesPetActivity : AppCompatActivity() {
         configClicks()
     }
 
+    override fun onResume() {
+        super.onResume()
+        tentaCarregarPet()
+    }
+
     private fun carregaUserId() {
         SharedPref(this).getIdUser()?.let {
             idUser = it
@@ -63,6 +68,7 @@ class DetalhesPetActivity : AppCompatActivity() {
                     startActivity(this)
                 }
             }
+            toolbar.btnDelete.setOnClickListener { dialogExcluirPost() }
         }
     }
 

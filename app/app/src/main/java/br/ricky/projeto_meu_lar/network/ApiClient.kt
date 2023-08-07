@@ -44,4 +44,12 @@ interface ApiClient {
         @Path("idUser") idUser: String,
     ): Response<Void>
 
+    @PUT("pet/atualizar_pet/{idPet}/{idUser}")
+    suspend fun atualizarPost(
+        @Header("Authorization") token: String,
+        @Path("idPet") idPet: String,
+        @Path("idUser") idUser: String,
+        @Body pet: PetUpdate
+    ): Response<Void>
+
 }

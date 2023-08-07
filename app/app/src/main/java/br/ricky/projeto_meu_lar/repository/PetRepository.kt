@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import br.ricky.projeto_meu_lar.model.ErrorMensagem
-import br.ricky.projeto_meu_lar.model.Pet
-import br.ricky.projeto_meu_lar.model.PetSalvar
-import br.ricky.projeto_meu_lar.model.Pets
+import br.ricky.projeto_meu_lar.model.*
 import br.ricky.projeto_meu_lar.network.RetrofitInstance
 import br.ricky.projeto_meu_lar.utils.dialogLogarNovamente
 import com.google.gson.Gson
@@ -208,7 +205,12 @@ class PetRepository {
         return null
     }
 
-    suspend fun apagarPost(activity: Activity, token: String, idUser: String, idPet: String):Boolean {
+    suspend fun apagarPost(
+        activity: Activity,
+        token: String,
+        idUser: String,
+        idPet: String
+    ): Boolean {
         try {
             val response: Response<Void> =
                 RetrofitInstance.api.deletarPost(token = token, idPet = idPet, idUser = idUser)
@@ -232,7 +234,52 @@ class PetRepository {
                         ).show()
                     }
                 }
-            }else{
+            } else {
+                return true
+            }
+        } catch (e: Exception) {
+            Toast.makeText(activity.baseContext, "Error ao tentar conectar", Toast.LENGTH_SHORT)
+                .show()
+        }
+        return false
+    }
+
+    suspend fun atualizarPost(
+        activity: Activity,
+        token: String,
+        idUser: String,
+        idPet: String,
+        pet: PetUpdate
+    ): Boolean {
+        try {
+            val response: Response<Void> =
+                RetrofitInstance.api.atualizarPost(
+                    token = token,
+                    idPet = idPet,
+                    idUser = idUser,
+                    pet = pet
+                )
+
+            if (!response.isSuccessful) {
+                if (response.code() == 403) {
+                    dialogLogarNovamente(activity)
+                } else {
+                    val mensagemError = Gson().fromJson(
+                        response
+                            .errorBody()
+                            ?.charStream(),
+                        ErrorMensagem::class.java
+                    )
+
+                    mensagemError?.let {
+                        Toast.makeText(
+                            activity.baseContext,
+                            mensagemError.error[0],
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
                 return true
             }
         } catch (e: Exception) {
