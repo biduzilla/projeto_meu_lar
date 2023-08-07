@@ -30,4 +30,12 @@ class FirebaseDao {
 
     }
 
+    fun apagarImagemFirebase(idPet:String){
+        FirebaseStorage.getInstance().reference
+            .child("imagens")
+            .child("pets")
+            .child(idPet)
+            .child("pet.jpeg")
+            .delete()
+    }
 }

@@ -207,4 +207,38 @@ class PetRepository {
         }
         return null
     }
+
+    suspend fun apagarPost(activity: Activity, token: String, idUser: String, idPet: String):Boolean {
+        try {
+            val response: Response<Void> =
+                RetrofitInstance.api.deletarPost(token = token, idPet = idPet, idUser = idUser)
+
+            if (!response.isSuccessful) {
+                if (response.code() == 403) {
+                    dialogLogarNovamente(activity)
+                } else {
+                    val mensagemError = Gson().fromJson(
+                        response
+                            .errorBody()
+                            ?.charStream(),
+                        ErrorMensagem::class.java
+                    )
+
+                    mensagemError?.let {
+                        Toast.makeText(
+                            activity.baseContext,
+                            mensagemError.error[0],
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }else{
+                return true
+            }
+        } catch (e: Exception) {
+            Toast.makeText(activity.baseContext, "Error ao tentar conectar", Toast.LENGTH_SHORT)
+                .show()
+        }
+        return false
+    }
 }

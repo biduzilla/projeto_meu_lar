@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -24,6 +23,8 @@ import br.ricky.projeto_meu_lar.*
 import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.ActivityFormPetBinding
 import br.ricky.projeto_meu_lar.databinding.BottomSheetFormPetBinding
+import br.ricky.projeto_meu_lar.extensions.tentaCarregarImagem
+import br.ricky.projeto_meu_lar.model.Pet
 import br.ricky.projeto_meu_lar.model.PetSalvar
 import br.ricky.projeto_meu_lar.network.FirebaseDao
 import br.ricky.projeto_meu_lar.repository.PetRepository
@@ -48,21 +49,31 @@ class FormPetActivity : AppCompatActivity() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private var resultCode: String = ""
     private var caminhoImagem: String? = null
-    private var imagemEscolhida: String? = null
     private var isAdocao: Boolean = false
     private var isUpdate: Boolean = false
     private var tamanho: Int? = null
     private var status: Int? = null
     private val laranja: Int = Color.parseColor("#f8a300")
     private val cinzaClaro: Int = Color.parseColor("#CAC4C4")
+    private lateinit var token: String
+    private lateinit var petRecuperado: Pet
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         startResult()
+        carregaToken()
         configClicks()
         verificaAdocaoAndUpdate()
+    }
+
+    private fun carregaToken() {
+        SharedPref(this).getToken()?.let {
+            token = it
+        } ?: run {
+            Toast.makeText(baseContext, "Error carregar token", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun verificaAdocaoAndUpdate() {
@@ -73,16 +84,98 @@ class FormPetActivity : AppCompatActivity() {
             if (isUpdate) {
                 toolbar.tvTitulo.text = "Atualizar dados do pet"
                 btnCadastrar.text = "Atualizar"
+
+                scrollView.visibility = View.GONE
+                loadDados.visibility = View.VISIBLE
+
+                tentaCarregarPet()
             } else {
                 toolbar.tvTitulo.text = "Cadastrar dados do pet"
                 btnCadastrar.text = "Cadastrar"
+                cbAdotar.visibility = View.GONE
             }
 
-            if (isAdocao) {
+            if (isAdocao && !isUpdate) {
                 llStatus.visibility = View.GONE
             } else {
                 llStatus.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun tentaCarregarPet() {
+        val petId = intent.getStringExtra(CHAVE_ID_PET)
+
+        lifecycleScope.launch {
+            petId?.let {
+                PetRepository().getPetById(
+                    activity = this@FormPetActivity,
+                    idPet = it,
+                    token = token
+                )?.let { pet ->
+                    carregaDados(pet)
+                }
+
+            }
+        }
+    }
+
+    private fun carregaDados(pet: Pet) {
+        with(binding) {
+            edtNome.setText(pet.nomePet)
+            edtDesc.setText(pet.descricao)
+            imgPet.tentaCarregarImagem(pet.imagem)
+            imgIcon.visibility = View.GONE
+
+            when (pet.status) {
+                "ADOTAR" -> {
+                    status = 3
+                    cbAdotar.isChecked = true
+                    cbPerdido.setTextColor(cinzaClaro)
+                    cbEncontrado.setTextColor(cinzaClaro)
+                    cbAdotar.setTextColor(laranja)
+                }
+                "ENCONTRADO" -> {
+                    status = 1
+                    cbEncontrado.isChecked = true
+                    cbPerdido.setTextColor(cinzaClaro)
+                    cbEncontrado.setTextColor(laranja)
+                    cbAdotar.setTextColor(cinzaClaro)
+                }
+                "PERDIDO" -> {
+                    status = 2
+                    cbPerdido.isChecked = true
+                    cbPerdido.setTextColor(laranja)
+                    cbEncontrado.setTextColor(cinzaClaro)
+                    cbAdotar.setTextColor(cinzaClaro)
+                }
+            }
+
+            when (pet.tamanho) {
+                "PEQUENO" -> {
+                    status = 1
+                    cbPequeno.isChecked = true
+                    cbMedio.setTextColor(cinzaClaro)
+                    cbGrande.setTextColor(cinzaClaro)
+                    cbPequeno.setTextColor(laranja)
+                }
+                "MEDIO" -> {
+                    status = 2
+                    cbMedio.isChecked = true
+                    cbMedio.setTextColor(laranja)
+                    cbGrande.setTextColor(cinzaClaro)
+                    cbPequeno.setTextColor(cinzaClaro)
+                }
+                "GRANDE" -> {
+                    status = 3
+                    cbGrande.isChecked = true
+                    cbMedio.setTextColor(cinzaClaro)
+                    cbGrande.setTextColor(laranja)
+                    cbPequeno.setTextColor(cinzaClaro)
+                }
+            }
+            scrollView.visibility = View.VISIBLE
+            loadDados.visibility = View.GONE
         }
     }
 
@@ -94,6 +187,7 @@ class FormPetActivity : AppCompatActivity() {
 
             cbEncontrado.setOnClickListener {
                 cbPerdido.setTextColor(cinzaClaro)
+                cbAdotar.setTextColor(cinzaClaro)
 
                 if (cbEncontrado.isChecked) {
                     cbPerdido.isChecked = false
@@ -102,8 +196,20 @@ class FormPetActivity : AppCompatActivity() {
                 }
             }
 
+            cbAdotar.setOnClickListener {
+                cbEncontrado.setTextColor(cinzaClaro)
+                cbPerdido.setTextColor(cinzaClaro)
+
+                if (cbAdotar.isChecked) {
+                    cbAdotar.isChecked = false
+                    status = 3
+                    cbAdotar.setTextColor(laranja)
+                }
+            }
+
             cbPerdido.setOnClickListener {
                 cbEncontrado.setTextColor(cinzaClaro)
+                cbAdotar.setTextColor(cinzaClaro)
                 if (cbPerdido.isChecked) {
                     cbEncontrado.isChecked = false
                     status = 1
@@ -336,31 +442,41 @@ class FormPetActivity : AppCompatActivity() {
                     status == 1 -> "ENCONTRADO"
                     status == 2 -> "PERDIDO"
                     isAdocao -> "ADOTAR"
+                    status == 3 -> "ADOTAR"
                     else -> "ERROR"
                 }
 
                 val pet = PetSalvar(
-                    id = UUID.randomUUID().toString(),
+                    id = if (isUpdate) {
+                        petRecuperado.id
+                    } else {
+                        UUID.randomUUID().toString()
+                    },
                     nome = nome,
                     descricao = desc,
                     tamanho = tam,
                     status = sta
                 )
-                salvarImagemFirebase(pet)
+                caminhoImagem?.let {
+                    pet.imagem = petRecuperado.imagem
+                    salvarPet(pet)
+                } ?: run {
+                    salvarImagemFirebase(pet)
+                }
+
             }
         }
     }
 
 
     private fun salvarPet(pet: PetSalvar) {
-        val token = SharedPref(this@FormPetActivity).getToken()
         val idUser = SharedPref(this@FormPetActivity).getIdUser()
 
         lifecycleScope.launch {
             petRepository.salvarPet(
                 this@FormPetActivity,
                 pet = pet,
-                token = token!!,
+                token = token,
                 idUser = idUser!!
             ).apply {
                 if (this) {
@@ -377,7 +493,6 @@ class FormPetActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun salvarImagemFirebase(pet: PetSalvar) {

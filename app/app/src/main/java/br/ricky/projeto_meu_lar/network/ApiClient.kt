@@ -36,4 +36,12 @@ interface ApiClient {
         @Path("idUser") idUser: String,
         @Body pet: PetSalvar
     ): Response<Void>
+
+    @DELETE("pet/apagar_pet/{idPet}/{idUser}")
+    suspend fun deletarPost(
+        @Header("Authorization") token: String,
+        @Path("idUser") idPet: String,
+        @Path("idUser") idUser: String,
+    ): Response<Void>
+
 }

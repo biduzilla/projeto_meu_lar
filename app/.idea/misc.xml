@@ -34,10 +34,11 @@
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/activity_splash.xml" value="0.16" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/bottom_sheet_form_pet.xml" value="0.21" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/dialog_apagar_pet.xml" value="0.18568840579710144" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/dialog_token_invalid.xml" value="0.2" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_config.xml" value="0.10572916666666667" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_home.xml" value="0.18" />
-        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_perdido_encontrado.xml" value="0.17" />
+        <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/fragment_perdido_encontrado.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/item_pet.xml" value="0.33" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/toolbar_sair.xml" value="0.22" />
         <entry key="..\:/code/programacao/kotlin/projeto_meu_lar/app/app/src/main/res/layout/toolbar_sair_menu.xml" value="0.22" />

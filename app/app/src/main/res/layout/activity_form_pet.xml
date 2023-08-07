@@ -14,7 +14,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/load_dados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:indeterminateTint="@color/laranja"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:visibility="visible" />
+
+
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -193,6 +209,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Encontrado"
+                            android:textColor="@color/on_focused"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/cb_adotar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Adoção"
                             android:textColor="@color/on_focused"
                             android:textSize="18sp" />
                     </LinearLayout>

@@ -11,6 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Publique aqui pets perdidos e encontrados"
+            android:textAlignment="center"
+            android:background="@color/laranja"
+            android:textColor="@color/white"
+            android:padding="16dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
@@ -21,7 +36,7 @@
             android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/textView3">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_perdido"
@@ -63,6 +78,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_meu_pet"
                 android:layout_width="wrap_content"
@@ -116,9 +132,9 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="32dp"
+            android:background="@drawable/btn_circulo_background"
             android:src="@drawable/ic_add"
             android:tint="@color/white"
-            android:background="@drawable/btn_circulo_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
