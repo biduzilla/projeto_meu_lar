@@ -40,7 +40,7 @@ interface ApiClient {
     @DELETE("pet/apagar_pet/{idPet}/{idUser}")
     suspend fun deletarPost(
         @Header("Authorization") token: String,
-        @Path("idUser") idPet: String,
+        @Path("idPet") idPet: String,
         @Path("idUser") idUser: String,
     ): Response<Void>
 
@@ -50,6 +50,18 @@ interface ApiClient {
         @Path("idPet") idPet: String,
         @Path("idUser") idUser: String,
         @Body pet: PetUpdate
+    ): Response<Void>
+
+    @GET("usuario/get_user/{idUser}")
+    suspend fun getUserById(
+        @Header("Authorization") token: String,
+        @Path("idUser") idUser: String,
+    ): Response<UsuarioResponse>
+
+    @GET("usuario/atualizar")
+    suspend fun updateUser(
+        @Header("Authorization") token: String,
+        @Body user:UsuarioRequisicao
     ): Response<Void>
 
 }

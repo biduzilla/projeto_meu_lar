@@ -6,7 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.auth.LoginActivity">
 
+    <ProgressBar
+        android:id="@+id/load_dados"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:indeterminateTint="@color/laranja"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2"
+        tools:visibility="visible" />
+
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -34,7 +49,7 @@
                     android:layout_marginStart="8dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_back"
-                    android:tint="@color/white" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -59,6 +74,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
+                    android:id="@+id/tv_titulo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="64dp"
@@ -229,15 +245,13 @@
                     android:id="@+id/progress_circular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
                     android:layout_gravity="center"
+                    android:layout_margin="16dp"
                     android:indeterminateTint="@color/laranja"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
             </LinearLayout>
         </LinearLayout>
-
-
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

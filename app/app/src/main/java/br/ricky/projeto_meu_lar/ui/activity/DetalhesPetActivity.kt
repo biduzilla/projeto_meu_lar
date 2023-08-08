@@ -2,6 +2,7 @@ package br.ricky.projeto_meu_lar.ui.activity
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -69,6 +70,7 @@ class DetalhesPetActivity : AppCompatActivity() {
                 }
             }
             toolbar.btnDelete.setOnClickListener { dialogExcluirPost() }
+            btnLigar.setOnClickListener { ligar() }
         }
     }
 
@@ -175,5 +177,11 @@ class DetalhesPetActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun ligar() {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:${petRecuperado.telefone}")
+        startActivity(intent)
     }
 }
