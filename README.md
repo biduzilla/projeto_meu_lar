@@ -25,7 +25,6 @@ Projeto criado com a ideia de ser um app para facilitar a adoção de pets, recu
 ### Atualizar dados
 ![Mobile 1](imgs/5.png)
 
-![Mobile 1](imgs/final.gif)
 
 ## Técnicas e tecnologias utilizadas
 
