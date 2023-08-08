@@ -99,7 +99,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 usuario.setTelefone(usuarioDto.getTelefone());
             }
             if (!usuarioDto.getSenha().isEmpty() || usuarioDto.getSenha() != null) {
-                usuario.setSenha(encoder.encode(usuario.getSenha()));
+                usuario.setSenha(encoder.encode(usuarioDto.getSenha()));
             }
 
             usuarioRepository.save(usuario);

@@ -9,9 +9,23 @@ Projeto criado com a ideia de ser um app para facilitar a adoção de pets, recu
 - Spring Boot
 - MySql
 - Docker
+- Firebase Storage
 
 ### Mobile
 - Kotlin(android)
+- Retrofit
+
+# Layout Mobile
+### Login / Criar Conta / Home
+![Mobile 1](imgs/2.png)
+### Cadastrar Post / Inserir Imagem / Detalhes do post
+![Mobile 1](imgs/3.png)
+### Apagar Post / Pets perdidos e encontrados / Configurações
+![Mobile 1](imgs/4.png)
+### Atualizar dados
+![Mobile 1](imgs/5.png)
+
+![Mobile 1](imgs/final.gif)
 
 ## Técnicas e tecnologias utilizadas
 
