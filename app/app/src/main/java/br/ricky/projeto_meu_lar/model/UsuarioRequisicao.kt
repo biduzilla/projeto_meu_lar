@@ -6,4 +6,5 @@ data class UsuarioRequisicao(
     var senha: String = "",
     var telefone: String = "",
     var nome: String = "",
+    var pets: List<Pet> = emptyList()
 )

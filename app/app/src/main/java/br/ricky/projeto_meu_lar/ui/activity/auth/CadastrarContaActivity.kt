@@ -1,16 +1,17 @@
 package br.ricky.projeto_meu_lar.ui.activity.auth
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import br.ricky.projeto_meu_lar.IS_UPDATE
 import br.ricky.projeto_meu_lar.data.SharedPref
 import br.ricky.projeto_meu_lar.databinding.ActivityCadastrarContaBinding
 import br.ricky.projeto_meu_lar.model.UsuarioConta
+import br.ricky.projeto_meu_lar.model.UsuarioRequisicao
 import br.ricky.projeto_meu_lar.model.UsuarioResponse
 import br.ricky.projeto_meu_lar.repository.UserRepository
 import kotlinx.coroutines.launch
@@ -87,6 +88,8 @@ class CadastrarContaActivity : AppCompatActivity() {
             edtNome.setText(user.nome)
             edtEmail.setText(user.email)
             edtTelefone.setText(user.telefone)
+
+            edtEmail.isFocusable = false
         }
     }
 
@@ -132,7 +135,40 @@ class CadastrarContaActivity : AppCompatActivity() {
                 else -> {
                     progressCircular.visibility = View.VISIBLE
                     btnCadastrar.visibility = View.GONE
-                    criarConta(nome, email, telefone, senha)
+
+                    if (isUpdate) {
+                        atualizarConta(nome, email, telefone, senha)
+                    } else {
+                        criarConta(nome, email, telefone, senha)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun atualizarConta(nome: String, email: String, telefone: String, senha: String) {
+        val user = UsuarioRequisicao(
+            id = idUser,
+            email = email,
+            senha = senha,
+            telefone = telefone,
+            nome = nome,
+        )
+        lifecycleScope.launch {
+            userRepository.updateUser(
+                user = user,
+                activity = this@CadastrarContaActivity,
+                token = token
+            ).apply {
+                if (this) {
+                    Toast.makeText(baseContext, "Dados atualizados com sucesso", Toast.LENGTH_SHORT)
+                        .show()
+                    this@CadastrarContaActivity.finish()
+                } else {
+                    with(binding) {
+                        progressCircular.visibility = View.GONE
+                        btnCadastrar.visibility = View.VISIBLE
+                    }
                 }
             }
         }
@@ -161,6 +197,5 @@ class CadastrarContaActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 }

@@ -58,7 +58,7 @@ interface ApiClient {
         @Path("idUser") idUser: String,
     ): Response<UsuarioResponse>
 
-    @GET("usuario/atualizar")
+    @PUT("usuario/atualizar")
     suspend fun updateUser(
         @Header("Authorization") token: String,
         @Body user:UsuarioRequisicao

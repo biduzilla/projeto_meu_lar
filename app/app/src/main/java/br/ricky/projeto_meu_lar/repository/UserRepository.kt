@@ -106,9 +106,7 @@ class UserRepository {
             val response: Response<Void> =
                 RetrofitInstance.api.updateUser(token = token, user = user)
             if (response.isSuccessful) {
-                response.body()?.let {
                     return true
-                }
             } else {
                 if (response.code() == 403) {
                     dialogLogarNovamente(activity)

@@ -85,12 +85,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void atualizarUser(UsuarioDto usuarioDto) {
         if (usuarioRepository.existsById(usuarioDto.getId())) {
-            if (usuarioRepository.existsByEmail(usuarioDto.getEmail())) {
-                throw new EmailJaCadastrado();
-            }
-            if (!validEmail(usuarioDto.getEmail())) {
-                throw new EmaiInvalido();
-            }
             if (!validSenha(usuarioDto.getSenha())) {
                 throw new SenhaCurta();
             }
@@ -98,9 +92,6 @@ public class UsuarioServiceImpl implements UsuarioService {
             Usuario usuario = usuarioRepository.findById(usuarioDto.getId())
                     .orElseThrow(UsuarioNaoEncontrado::new);
 
-            if (!usuarioDto.getEmail().isEmpty() || usuarioDto.getEmail() != null) {
-                usuario.setEmail(usuarioDto.getEmail());
-            }
             if (!usuarioDto.getNome().isEmpty() || usuarioDto.getNome() != null) {
                 usuario.setNome(usuarioDto.getNome());
             }
@@ -108,7 +99,7 @@ public class UsuarioServiceImpl implements UsuarioService {
                 usuario.setTelefone(usuarioDto.getTelefone());
             }
             if (!usuarioDto.getSenha().isEmpty() || usuarioDto.getSenha() != null) {
-                usuario.setSenha(usuarioDto.getSenha());
+                usuario.setSenha(encoder.encode(usuario.getSenha()));
             }
 
             usuarioRepository.save(usuario);
